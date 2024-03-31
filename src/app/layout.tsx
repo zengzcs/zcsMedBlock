@@ -24,7 +24,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import BugReportIcon from "@mui/icons-material/BugReport";
 export const metadata = {
   title: "Next.js MUI Starter Template",
   description: "Next.js App Router + Material UI v5 Starter Template",
@@ -35,9 +35,10 @@ const DRAWER_WIDTH = 240;
 const LINKS = [
   { text: "主页", href: "/", icon: HomeIcon },
   { text: "医疗信息记录管理", href: "/", icon: AssignmentIcon },
-  { text: "医生", href: "/", icon: MedicationLiquidIcon },
+  { text: "医生", href: "/doctors", icon: MedicationLiquidIcon },
   { text: "病人", href: "/patients", icon: AccessibleIcon },
   { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
+  { text: "系统测试",href:"/tests",icon:BugReportIcon}
 ];
 
 export default function RootLayout({

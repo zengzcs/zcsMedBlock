@@ -1,11 +1,11 @@
-"use client";
-export default function PatientPages() {
-  return (
-    <div>
-      <BasicTabs></BasicTabs>
-    </div>
-  );
-}
+"use client"
+export default function DoctorsPages() {  return (
+  <div>
+    <BasicTabs></BasicTabs>
+  </div>
+);}
+
+
 
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RegisterPatient from "@/app/components/RegisterPatiens";
+import RegisterDoctor from "@/app/components/RegisterDoctors";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -61,8 +62,8 @@ function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="病人信息概览" {...a11yProps(0)} />
-          <Tab label="注册病人信息" {...a11yProps(1)} />
+          <Tab label="医生信息概览" {...a11yProps(0)} />
+          <Tab label="注册医生信息" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -70,7 +71,7 @@ function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
-          <RegisterPatient></RegisterPatient>
+          <RegisterDoctor></RegisterDoctor>
         </div>
       </CustomTabPanel>
     </Box>
