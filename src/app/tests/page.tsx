@@ -22,6 +22,7 @@ function FormRow() {
         <Button href="/tests/testWeb3Connection" variant="contained">
           测试Web3
         </Button>
+        <Button href="/tests/testPrisma">测试Prisma</Button>
       </Grid>
       <Grid item xs={4}>
         <Item>Item</Item>

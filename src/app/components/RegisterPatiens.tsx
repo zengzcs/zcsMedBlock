@@ -1,4 +1,4 @@
-"use client";
+"use Server"
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
@@ -14,7 +14,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-
+import handleCommit from "./HandleCommit";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -24,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
+import { Prisma } from "@prisma/client";
 const sexies = [
   {
     value: "男",
@@ -33,6 +34,104 @@ const sexies = [
   {
     value: "女",
     label: "女",
+  },
+];
+const commonOccupationsExtended = [
+  {
+    value: "doctor",
+    label: "医生",
+  },
+  {
+    value: "teacher",
+    label: "教师",
+  },
+  {
+    value: "engineer",
+    label: "工程师",
+  },
+  {
+    value: "programmer",
+    label: "程序员",
+  },
+  {
+    value: "accountant",
+    label: "会计",
+  },
+  {
+    value: "salesperson",
+    label: "销售员",
+  },
+  {
+    value: "designer",
+    label: "设计师",
+  },
+  {
+    value: "constructionWorker",
+    label: "建筑工人",
+  },
+  {
+    value: "factoryWorker",
+    label: "工厂工人",
+  },
+  {
+    value: "mechanic",
+    label: "技工",
+  },
+  {
+    value: "electrician",
+    label: "电工",
+  },
+  {
+    value: "plumber",
+    label: "管道工",
+  },
+  {
+    value: "farmer",
+    label: "农民",
+  },
+  {
+    value: "waiter",
+    label: "服务员",
+  },
+  {
+    value: "cashier",
+    label: "收银员",
+  },
+  {
+    value: "janitor",
+    label: "清洁工",
+  },
+  {
+    value: "driver",
+    label: "司机",
+  },
+  {
+    value: "securityGuard",
+    label: "保安",
+  },
+  {
+    value: "nurse",
+    label: "护士",
+  },
+  {
+    value: "officeClerk",
+    label: "办公室文员",
+  },
+  {
+    value: "entrepreneur",
+    label: "企业家",
+  },
+  {
+    value: "chef",
+    label: "厨师",
+  },
+  {
+    value: "artist",
+    label: "艺术家",
+  },
+  {
+    value: "athlete",
+    label: "运动员",
   },
 ];
 const bloodTypes = [
@@ -75,6 +174,7 @@ const bloodTypes = [
   },
 ];
 
+
 async function loadWeb3() {
   //---if MetaMask is available on your web browser---
   if (window.ethereum) {
@@ -100,9 +200,6 @@ async function load() {
   alert(await getCurrentAccount());
 }
 
-function handleCommit() {
-  load();
-}
 function BasicGrid() {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -119,47 +216,42 @@ function BasicGrid() {
           >
             <TextField
               required
-              id="outlined-name"
+              id="name"
               label="姓名"
               defaultValue=""
               variant="outlined"
             />
             <TextField
               required
-              id="outlined-required"
+              id="icNumber"
               label="身份证号"
               defaultValue=""
             />
 
             <TextField
               required
-              id="outlined-phoneNumber"
+              id="phoneNumber"
               label="电话号码"
               defaultValue=""
               variant="outlined"
             />
 
-            <TextField
-              required
-              id="outlined-occupation"
-              label="职业"
-              defaultValue=""
-              variant="outlined"
-            />
+            <TextField id="occupation" select label="职业" defaultValue="doctor">
+              {commonOccupationsExtended.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <TextField
-              id="outlined-email"
+              id="email"
               label="电子邮件"
               defaultValue=""
               variant="outlined"
             />
 
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="性别"
-              defaultValue="男"
-            >
+            <TextField id="sex" select label="性别" defaultValue="男">
               {sexies.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -168,7 +260,7 @@ function BasicGrid() {
             </TextField>
 
             <TextField
-              id="outlined-height"
+              id="height"
               label="身高（cm）"
               type="number"
               defaultValue="175"
@@ -176,7 +268,7 @@ function BasicGrid() {
             />
 
             <TextField
-              id="outlined-weight"
+              id="weight"
               label="体重（kg）"
               type="number"
               defaultValue="75"
@@ -184,7 +276,8 @@ function BasicGrid() {
             />
 
             <TextField
-              id="outlined-bloodGroup"
+              id="bloodGroup"
+              required
               label="血型"
               select
               defaultValue=""
@@ -211,7 +304,7 @@ function BasicGrid() {
           >
             <TextField
               required
-              id="outlined-address"
+              id="address"
               label="居住地址"
               defaultValue=""
               variant="outlined"
@@ -231,8 +324,8 @@ function BasicGrid() {
             autoComplete="off"
           >
             <TextField
-              id="outlined-current"
-              label="当前用药"
+              id="medications"
+              label="过往病史"
               multiline
               rows={3}
               defaultValue=""
@@ -240,7 +333,7 @@ function BasicGrid() {
             />
 
             <TextField
-              id="outlined-allergy"
+              id="allergies"
               label="过敏史"
               multiline
               rows={3}
@@ -250,7 +343,7 @@ function BasicGrid() {
 
             <TextField
               required
-              id="outlined-emergentContactName"
+              id="emergentContactName"
               label="紧急联系人姓名"
               defaultValue=""
               variant="outlined"
@@ -258,7 +351,7 @@ function BasicGrid() {
 
             <TextField
               required
-              id="outlined-emergentContactPhoneNumber"
+              id="emergentContactPhoneNumber"
               label="紧急联系人电话"
               type="tel"
               defaultValue=""
