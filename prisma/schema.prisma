@@ -9,26 +9,52 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-model patientHash{
-  id Int @unique
-  icNumber String @unique
-  hash String @unique
+
+model PatientPersonalInfo {
+  patientId                  Int     @id @default(autoincrement())
+  phoneNumber                String
+  name                       String?
+  icNumber                   String  @unique
+  email                      String?
+  gender                     String
+  height                     Float
+  weight                     Float
+  occupation                 String
+  address                    String
+  bloodGroup                 String?
+  allergiesHistory           String
+  diagnosisHistory           String
+  emergentContactName        String
+  emergentContactPhoneNumber String
 }
 
-model Patient{
-  id    Int     @id @default(autoincrement())
-  phoneNumber String
-  name String?
-  icNumber String @unique
-  email String?
-  gender String
-  height Float
-  weight Float
-  occupation String
-  address String
-  bloodGroup String?
-  allergy String?
-  currentMedication String?
-  emergentContactName String
-  emergentContactPhoneNumber String
+model PatientMedicationRecords {
+  patientId                 Int    @unique
+  diagnosisHistoryStringify String
+  medicineHistoryStringify  String
+}
+
+model patientDiagnosis {
+  patientDiagnosisId Int      @id @default(autoincrement())
+  doctorId           Int
+  patientId          Int
+  timeStamp          DateTime
+  description        String
+}
+
+model patientMedicines {
+  patientMedicinesId   Int      @id @default(autoincrement())
+  doctorId             Int
+  patientId            Int
+  timeStamp            DateTime
+  medicinesStringinify String
+}
+
+model DoctorInfo {
+  doctorId                    Int     @id @default(autoincrement())
+  name                        String
+  gender                      String
+  icNumber                    String
+  category                    String
+  authorizedPatientsStringify String?
 }

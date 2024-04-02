@@ -14,20 +14,20 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.patient.create({
+    const a = await prisma.patientPersonalInfo.create({
       data: {
         phoneNumber: json.phoneNumber,
         name: json.name,
         icNumber: json.icNumber,
         email: json.email,
-        gender: json.sex,
+        gender: json.gender,
         height: Number.parseFloat(json.height),
         weight: Number.parseFloat(json.weight),
         occupation: json.occupation,
         address: json.address,
         bloodGroup: json.bloodGroup,
-        allergy: json.allergy,
-        currentMedication: json.medications,
+        allergiesHistory: json.allergies,
+        diagnosisHistory: json.medications,
         emergentContactName: json.emergentContactName,
         emergentContactPhoneNumber: json.emergentContactPhoneNumber,
       },

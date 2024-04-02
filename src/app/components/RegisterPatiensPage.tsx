@@ -1,4 +1,4 @@
-"use Server"
+"use Server";
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
@@ -174,7 +174,6 @@ const bloodTypes = [
   },
 ];
 
-
 async function loadWeb3() {
   //---if MetaMask is available on your web browser---
   if (window.ethereum) {
@@ -236,7 +235,12 @@ function BasicGrid() {
               variant="outlined"
             />
 
-            <TextField id="occupation" select label="职业" defaultValue="doctor">
+            <TextField
+              id="occupation"
+              select
+              label="职业"
+              defaultValue="doctor"
+            >
               {commonOccupationsExtended.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -309,6 +313,22 @@ function BasicGrid() {
               defaultValue=""
               variant="outlined"
             />
+            <TextField
+              required
+              id="emergentContactName"
+              label="紧急联系人姓名"
+              defaultValue=""
+              variant="outlined"
+            />
+
+            <TextField
+              required
+              id="emergentContactPhoneNumber"
+              label="紧急联系人电话"
+              type="tel"
+              defaultValue=""
+              variant="outlined"
+            />
           </Box>
         </Grid>
 
@@ -337,23 +357,6 @@ function BasicGrid() {
               label="过敏史"
               multiline
               rows={3}
-              defaultValue=""
-              variant="outlined"
-            />
-
-            <TextField
-              required
-              id="emergentContactName"
-              label="紧急联系人姓名"
-              defaultValue=""
-              variant="outlined"
-            />
-
-            <TextField
-              required
-              id="emergentContactPhoneNumber"
-              label="紧急联系人电话"
-              type="tel"
               defaultValue=""
               variant="outlined"
             />
