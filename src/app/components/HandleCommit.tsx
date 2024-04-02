@@ -1,4 +1,4 @@
-export default async function handleCommit() {
+export const getPatientInfoJSON = () => {
   const PatientPersonalInfoData = {
     name: document.getElementById("name").value,
     icNumber: document.getElementById("icNumber").value,
@@ -17,7 +17,12 @@ export default async function handleCommit() {
     medications: document.getElementById("medications").value,
     allergies: document.getElementById("allergies").value,
   };
+  return PatientPersonalInfoData;
+}
 
+export default async function handleCommit() {
+  
+  const PatientPersonalInfoData=getPatientInfoJSON();
 
   // 将对象转换为 JSON 字符串
   const jsonPayload = JSON.stringify(PatientPersonalInfoData);
