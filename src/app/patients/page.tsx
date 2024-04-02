@@ -12,7 +12,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import RegisterPatient from "@/app/components/RegisterPatiens";
+import RegisterPatientPage from "@/app/components/RegisterPatiensPage";
+import PatientsDashBoardPage from "../components/PatientsDashBoardPage";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -66,11 +67,11 @@ function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <PatientsDashBoardPage></PatientsDashBoardPage>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
-          <RegisterPatient></RegisterPatient>
+          <RegisterPatientPage></RegisterPatientPage>
         </div>
       </CustomTabPanel>
     </Box>

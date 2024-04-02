@@ -9,12 +9,17 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+model patientHash{
+  id Int @unique
+  icNumber String @unique
+  hash String @unique
+}
 
 model Patient{
   id    Int     @id @default(autoincrement())
-  phoneNumber String @unique
+  phoneNumber String
   name String?
-  icNumber String?
+  icNumber String @unique
   email String?
   gender String
   height Float

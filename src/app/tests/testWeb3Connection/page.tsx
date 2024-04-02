@@ -3,80 +3,8 @@ import { useState } from "react";
 import { Web3 } from "web3";
 
 function App() {
-  async function testContract() {
-    var abi = [
-      {
-        inputs: [
-          {
-            internalType: "uint256",
-            name: "num",
-            type: "uint256",
-          },
-        ],
-        name: "store",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "retrieve",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-    ];
-    var address = "0xE08255E9f64AfA9D63c87ac3837dc7A6Ec30210d";
-
-    const web3: Web3 = new Web3(
-      new Web3.providers.HttpProvider("http://localhost:9545")
-    );
-    const metacoin = new web3.eth.Contract(abi, address);
-    const providersAccounts: string[] = await web3.eth.getAccounts();
-    const defaultAccount: string = providersAccounts[0];
-    // setInfo(defaultAccount)
-    const myNumber = await metacoin.methods.retrieve().call();
-    console.log(myNumber);
-    setInfo(await metacoin.methods.retrieve().call());
-  }
-  //state to store and show the connected account
-  const [connectedAccount, setConnectedAccount] = useState("null");
-  const [info, setInfo] = useState(233);
-  async function connectMetamask() {
-    //check metamask is installed
-    if (window.ethereum) {
-      // instantiate Web3 with the injected provider
-      const web3 = new Web3(window.ethereum);
-
-      //request user to connect accounts (Metamask will prompt)
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-
-      //get the connected accounts
-      const accounts = await web3.eth.getAccounts();
-
-      //show the first connected account in the react page
-      setConnectedAccount(accounts[0]);
-    } else {
-      alert("Please download metamask");
-    }
-  }
-
   return (
     <>
-      {/* Button to trigger Metamask connection */}
-      <button onClick={() => connectMetamask()}>Connect to Metamask</button>
-
-      {/* Display the connected account */}
-      <h2>{connectedAccount}</h2>
-      <button onClick={() => testContract()}>testContract</button>
-      <h2>{info}</h2>
-
       <BasicTextFields></BasicTextFields>
     </>
   );
@@ -91,48 +19,95 @@ import { Button } from "@mui/material";
 function BasicTextFields() {
   const [result, setResult] = useState(0);
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      
-      <TextField id="contractAddress" label="合约地址" variant="filled" />
-      <Button onClick={handle} >执行</Button>
-      <TextField id="filled-basic" label={result} variant="filled" />
-    </Box>
+    <div>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField id="contractAddress" label="合约地址" variant="filled" />
+        <Button onClick={handle}>执行</Button>
+        <TextField id="filled-basic" label={result} variant="filled" />
+      </Box>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField id="JSON-String" label="JSON字符串" variant="filled" />
+        <Button onClick={store}>存储</Button>
+
+        <TextField id="filled-basic" label={result} variant="filled" />
+      </Box>
+    </div>
   );
+
+  async function store() {
+    const data = String(document.getElementById("JSON-String").value);
+    console.log(data);
+    const web3: Web3 = new Web3(
+      new Web3.providers.HttpProvider("http://localhost:8545")
+    );
+    var patientstorageContract = new web3.eth.Contract(
+      [
+        {
+          inputs: [],
+          name: "retrieve",
+          outputs: [{ internalType: "string", name: "", type: "string" }],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [{ internalType: "string", name: "info", type: "string" }],
+          name: "store",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      "0xeb41301fe2706690188be31952cb6de8c5a2a00b"
+    );
+    await patientstorageContract.methods.store(data).call();
+
+    const receipt: any = await patientstorageContract.methods.store(data).send({
+      from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080",
+      gas: "1000000",
+      gasPrice: "10000000000",
+    });
+  }
+
   async function handle() {
-  
     const address = document.getElementById("contractAddress").value;
     const web3: Web3 = new Web3(
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
-   
+    var storageContract = new web3.eth.Contract(
+      [
+        {
+          inputs: [],
+          name: "retrieve",
+          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [{ internalType: "uint256", name: "num", type: "uint256" }],
+          name: "store",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      address
+    );
 
-    const abi = [
-      {
-        inputs: [],
-        name: "retrieve",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-    ];
-   
-     console.log("add" + address);
-    const myContract = new web3.eth.Contract(abi, address);
-    const a = await myContract.methods.retrieve().call()
-    console.log(a)
-    setResult(Number(a))
+    const result = await storageContract.methods.retrieve().call();
+    console.log(result);
   }
 }

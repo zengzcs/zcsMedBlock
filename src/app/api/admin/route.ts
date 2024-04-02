@@ -8,29 +8,39 @@ export const POST = async (req: NextRequest) => {
   const prisma = new PrismaClient();
   const response = req.body;
   const reader = response.getReader();
-  const { done, value } = await reader.read()
-  const deciphertext = new TextDecoder().decode(value)
-  const json = JSON.parse(deciphertext)
-  console.log("json")
-  console.log(json)
+  const { done, value } = await reader.read();
+  const deciphertext = new TextDecoder().decode(value);
+  const json = JSON.parse(deciphertext);
+  console.log("json");
+  console.log(json);
+  try {
+    const a = await prisma.patient.create({
+      data: {
+        phoneNumber: json.phoneNumber,
+        name: json.name,
+        icNumber: json.icNumber,
+        email: json.email,
+        gender: json.sex,
+        height: Number.parseFloat(json.height),
+        weight: Number.parseFloat(json.weight),
+        occupation: json.occupation,
+        address: json.address,
+        bloodGroup: json.bloodGroup,
+        allergy: json.allergy,
+        currentMedication: json.medications,
+        emergentContactName: json.emergentContactName,
+        emergentContactPhoneNumber: json.emergentContactPhoneNumber,
+      },
+    });
 
-  // const a = await prisma.patient.create({
-  //   data: {
-  //     phoneNumber: json.phoneNumber,
-  // name:json.name,
-  // icNumber:json.icNumber,
-  // email:json.email,
-  // gender:json.gender
-  // height Float
-  // weight Float
-  // occupation String
-  // address String
-  // bloodGroup String?
-  // allergy String?
-  // currentMedication String?
-  // emergentContactName String
-  // emergentContactPhoneNumber String
-  //   },
-  // });
-  return NextResponse.json({ msg: "ok" }, { status: 200 });
+    const stringText = JSON.stringify(json)
+    
+
+    return NextResponse.json({ msg: "ok" }, { status: 200 });
+  }
+  catch (e) {
+    console.log(e);
+    return NextResponse.json({ msg: "error" }, { status: 400 });
+  }
+  
 };
