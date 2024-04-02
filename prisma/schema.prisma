@@ -55,6 +55,8 @@ model DoctorInfo {
   name                        String
   gender                      String
   icNumber                    String
+  phoneNumber                 String
+  email                       String
   category                    String
   authorizedPatientsStringify String?
 }

@@ -364,24 +364,31 @@ function BasicGrid() {
           </Box>
         </Grid>
       </Grid>
-      <center>
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          size="large"
-          onClick={handleCommit}
-        >
-          提交到数据库
-        </Button>
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          size="large"
-          onClick={HandleCommitToBlockChain}
-        >
-          提交到Geth
-        </Button>
-      </center>
+      <Grid container spacing={3}>
+        
+        {" "}
+        {/* 间隔为 24px */}
+        <Grid item>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            size="large"
+            onClick={handleCommit}
+          >
+            提交到数据库
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            size="large"
+            onClick={HandleCommitToBlockChain}
+          >
+            提交到Geth
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
