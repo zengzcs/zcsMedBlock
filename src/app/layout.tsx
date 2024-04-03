@@ -29,16 +29,17 @@ export const metadata = {
   title: "Next.js MUI Starter Template",
   description: "Next.js App Router + Material UI v5 Starter Template",
 };
-
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
   { text: "主页", href: "/", icon: HomeIcon },
-  { text: "医疗信息记录管理", href: "/", icon: AssignmentIcon },
-  { text: "医生", href: "/doctors", icon: MedicationLiquidIcon },
-  { text: "病人", href: "/patients", icon: AccessibleIcon },
+  { text: "医疗信息记录管理", href: "/records", icon: AssignmentIcon },
+  { text: "医生管理", href: "/doctors", icon: MedicationLiquidIcon },
+  { text: "病人管理", href: "/patients", icon: AccessibleIcon },
+  { text: "医疗机构管理", href: "/medicalInstitution", icon: AccountBalanceIcon},
   { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
-  { text: "系统测试",href:"/tests",icon:BugReportIcon}
+  { text: "系统测试", href: "/tests", icon: BugReportIcon },
 ];
 
 export default function RootLayout({

@@ -26,37 +26,34 @@ model PatientPersonalInfo {
   diagnosisHistory           String
   emergentContactName        String
   emergentContactPhoneNumber String
+  patientMedicalRecordHash   String?
 }
 
-model PatientMedicationRecords {
-  patientId                 Int    @unique
-  diagnosisHistoryStringify String
-  medicineHistoryStringify  String
+model PatientMedicationRecord {
+  medicationRecordsId Int      @id @unique @default(autoincrement())
+  patientId           Int      
+  diagnosis           String
+  medicine            String
+  medicalDataHash     String?
+  timeStamp           DateTime
 }
 
-model patientDiagnosis {
-  patientDiagnosisId Int      @id @default(autoincrement())
-  doctorId           Int
-  patientId          Int
-  timeStamp          DateTime
-  description        String
-}
-
-model patientMedicines {
-  patientMedicinesId   Int      @id @default(autoincrement())
-  doctorId             Int
-  patientId            Int
-  timeStamp            DateTime
-  medicinesStringinify String
+model MedicalInstitutions {
+  medicalInstitutionId Int     @id @unique @default(autoincrement())
+  name                 String
+  region               String
+  grade                String
+  doctorDataHash       String?
 }
 
 model DoctorInfo {
-  doctorId                    Int     @id @default(autoincrement())
-  name                        String
-  gender                      String
-  icNumber                    String
-  phoneNumber                 String
-  email                       String
-  category                    String
-  authorizedPatientsStringify String?
+  doctorId               Int     @id @default(autoincrement())
+  medicalInstitutionId   String
+  name                   String
+  gender                 String
+  icNumber               String  @unique
+  phoneNumber            String
+  email                  String
+  category               String
+  authorizedPatientsHash String?
 }

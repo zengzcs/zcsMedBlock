@@ -14,7 +14,6 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import handleCommit from "./HandleCommit";
 import HandleCommitToBlockChain from "../lib/HandleCommitToBlockChain";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
 import { Prisma } from "@prisma/client";
+import HandleDoctorInfoCommitToBlockChain from "../lib/HandleDoctorInfoCommitToBlockChain";
 const sexies = [
   {
     value: "男",
@@ -70,6 +70,33 @@ const doctorsArray = Object.entries(doctorCategories).map(([key, value]) => {
     label: key,
   };
 });
+export const getDoctorInfo = ()=>{
+  const doctorJSON = {
+    name: document.getElementById("name").value,
+    gender: document.getElementById("gender").textContent,
+    icNumber: document.getElementById("icNumber").value,
+    phoneNumber: document.getElementById("phoneNumber").value,
+    category: document.getElementById("category").textContent,
+    email: document.getElementById("email").value,
+  }
+  return doctorJSON
+}
+async function handleCommitToDatabase() {
+  const doctorInfo=getDoctorInfo();
+  const jsonPayload = JSON.stringify(doctorInfo);
+  console.log(jsonPayload);
+  const a = await fetch("/api/storageDoctorInfo", {
+    method: "POST",
+    body: jsonPayload, 
+  });
+  console.log(a);
+  if (a.ok) {
+    alert("提交成功");
+  } else {
+    alert("提交失败");
+  }
+}
+
 
 function BasicGrid() {
   return (
@@ -108,7 +135,7 @@ function BasicGrid() {
             />
 
             <TextField
-              id="occupation"
+              id="category"
               select
               label="专业"
               defaultValue="Internist"
@@ -127,7 +154,7 @@ function BasicGrid() {
               variant="outlined"
             />
 
-            <TextField id="sex" select label="性别" defaultValue="男">
+            <TextField id="gender" select label="性别" defaultValue="男">
               {sexies.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -145,7 +172,7 @@ function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            onClick={handleCommit}
+            onClick={handleCommitToDatabase}
           >
             提交到数据库
           </Button>
@@ -155,7 +182,7 @@ function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            onClick={HandleCommitToBlockChain}
+            onClick={HandleDoctorInfoCommitToBlockChain}
           >
             提交到Geth
           </Button>

@@ -54,6 +54,7 @@ function BasicTextFields() {
     const web3: Web3 = new Web3(
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
+    
     var patientstorageContract = new web3.eth.Contract(
       [
         {
@@ -71,9 +72,10 @@ function BasicTextFields() {
           type: "function",
         },
       ],
-      "0xeb41301fe2706690188be31952cb6de8c5a2a00b"
+      "0x20ce4E871Ef7441677D689d162170C3B08a97E06"
     );
-    await patientstorageContract.methods.store(data).call();
+
+
 
     const receipt: any = await patientstorageContract.methods.store(data).send({
       from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080",
