@@ -1,4 +1,16 @@
 {
     "WillLuke.nextjs.addTypesOnSave": true,
-    "WillLuke.nextjs.hasPrompted": true
+    "WillLuke.nextjs.hasPrompted": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "172.28.0.2",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "PostgreSQL",
+            "database": "postgres",
+            "username": "postgres",
+            "password": "postgres"
+        }
+    ]
 }

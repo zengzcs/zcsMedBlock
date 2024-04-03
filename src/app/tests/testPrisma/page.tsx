@@ -3,13 +3,8 @@ export default function TestPrisma() {
   const prisma = new PrismaClient();
 
   async function main() {
-    const user = await prisma.user.create({
-      data: {
-        phone
-      },
-
-    });
-    console.log(user);
+    const patientInfo = await prisma.patientPersonalInfo.findMany()
+    console.log(patientInfo)
   }
 
   main()

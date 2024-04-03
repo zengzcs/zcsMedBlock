@@ -1,15 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -31,9 +28,7 @@ model Patients {
   emergentContactPhoneNumber String
   patientMedicalRecordHash   String?
   patientMedicationRecords   PatientMedicationRecord[]
-
-  Doctor         Doctor? @relation(fields: [doctorDoctorId], references: [doctorId])
-  doctorDoctorId Int?
+  doctorsAuthorized   Doctor[] 
 }
 
 model PatientMedicationRecord {
@@ -44,8 +39,6 @@ model PatientMedicationRecord {
   medicine            String
   medicalDataHash     String?
   timeStamp           DateTime
-  doctor              Doctor   @relation(fields: [docterId], references: [doctorId])
-  docterId            Int
 }
 
 model MedicalInstitutions {
@@ -57,16 +50,15 @@ model MedicalInstitutions {
 }
 
 model Doctor {
-  doctorId                Int                       @id @default(autoincrement())
-  medicalInstitutionId    Int
-  name                    String
-  gender                  String
-  icNumber                String                    @unique
-  phoneNumber             String
-  email                   String
-  category                String
-  patientsHaveAuthorized  Patients[]
-  authorizedPatientsHash  String?
-  medicationIinstitution  MedicalInstitutions       @relation(fields: [medicalInstitutionId], references: [medicalInstitutionId])
-  PatientMedicationRecord PatientMedicationRecord[]
+  doctorId               Int                 @id @default(autoincrement())
+  medicalInstitutionId   Int
+  name                   String
+  gender                 String
+  icNumber               String              @unique
+  phoneNumber            String
+  email                  String
+  category               String
+  patientsHaveAuthorized Patients[] @relation(fields: [])
+  authorizedPatientsHash String?
+  medicationIinstitution MedicalInstitutions @relation(fields: [medicalInstitutionId], references: [medicalInstitutionId])
 }
