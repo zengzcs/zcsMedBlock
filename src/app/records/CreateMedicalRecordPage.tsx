@@ -2,7 +2,7 @@
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
-export default function RegisterDoctor() {
+export default function RegisterPatient() {
   return (
     <div>
       <BasicGrid></BasicGrid>
@@ -70,7 +70,7 @@ const doctorsArray = Object.entries(doctorCategories).map(([key, value]) => {
     label: key,
   };
 });
-export const getDoctorInfo = ()=>{
+export const getDoctorInfo = () => {
   const doctorJSON = {
     name: document.getElementById("name").value,
     gender: document.getElementById("gender").textContent,
@@ -78,16 +78,16 @@ export const getDoctorInfo = ()=>{
     phoneNumber: document.getElementById("phoneNumber").value,
     category: document.getElementById("category").textContent,
     email: document.getElementById("email").value,
-  }
-  return doctorJSON
-}
+  };
+  return doctorJSON;
+};
 async function handleCommitToDatabase() {
-  const doctorInfo=getDoctorInfo();
+  const doctorInfo = getDoctorInfo();
   const jsonPayload = JSON.stringify(doctorInfo);
   console.log(jsonPayload);
   const a = await fetch("/api/storageDoctorInfo", {
     method: "POST",
-    body: jsonPayload, 
+    body: jsonPayload,
   });
   console.log(a);
   if (a.ok) {
@@ -96,7 +96,6 @@ async function handleCommitToDatabase() {
     alert("提交失败");
   }
 }
-
 
 function BasicGrid() {
   return (
@@ -190,4 +189,8 @@ function BasicGrid() {
       </Grid>
     </Box>
   );
+}
+
+export default function CreateMedicalRecordPage() {
+  return <div></div>;
 }

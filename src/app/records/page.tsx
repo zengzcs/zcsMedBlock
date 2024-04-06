@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RegisterPatient from "@/app/components/RegisterPatiensPage";
 import RegisterDoctor from "@/app/components/RegisterDoctor";
+import CreateMedicalRecordPage from "./CreateMedicalRecordPage";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -62,8 +63,8 @@ function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="医生信息概览" {...a11yProps(0)} />
-          <Tab label="注册医生信息" {...a11yProps(1)} />
+          <Tab label=医疗信息概览" {...a11yProps(0)} />
+          <Tab label="创建医疗信息记录" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -71,7 +72,7 @@ function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
-          <RegisterDoctor></RegisterDoctor>
+          <CreateMedicalRecordPage></CreateMedicalRecordPage>
         </div>
       </CustomTabPanel>
     </Box>
