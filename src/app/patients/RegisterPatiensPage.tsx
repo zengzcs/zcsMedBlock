@@ -1,4 +1,5 @@
 "use Server";
+import * as dotenv from "dotenv";
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
@@ -402,6 +403,7 @@ function BasicGrid() {
   );
 }
 async function handleCommit() {
+
 
 const contract = gethInstance.getContract(
   [
