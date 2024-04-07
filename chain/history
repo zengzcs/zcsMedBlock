@@ -26,3 +26,5 @@ eth.accounts
 miner.start(1)
 miner.stop()
 miner.start(1)
+miner.stop
+eth.accounts

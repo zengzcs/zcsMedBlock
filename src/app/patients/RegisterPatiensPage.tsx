@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-import HandleCommitToBlockChain from "../lib/HandleCommitToBlockChain";
+// import HandleCommitToBlockChain from "../lib/HandleCommitToBlockChain";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-
+import gethInstance from "../lib/getGethInstance";
 
 
 const sexies = [
@@ -392,7 +392,7 @@ function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            onClick={HandleCommitToBlockChain}
+            onClick={addPatientInfo_toBlockChain}
           >
             提交到Geth
           </Button>
@@ -436,4 +436,106 @@ async function handleCommit() {
   } else {
     alert("提交失败");
   }
+}
+
+async function addPatientInfo_toBlockChain() {
+ const contract = gethInstance.getContract(
+   [
+     {
+       anonymous: false,
+       inputs: [
+         {
+           indexed: false,
+           internalType: "address",
+           name: "add",
+           type: "address",
+         },
+         {
+           indexed: false,
+           internalType: "uint256",
+           name: "timestamp",
+           type: "uint256",
+         },
+       ],
+       name: "PatientInfoCreate",
+       type: "event",
+     },
+     {
+       anonymous: false,
+       inputs: [
+         {
+           indexed: false,
+           internalType: "address",
+           name: "add",
+           type: "address",
+         },
+         {
+           indexed: false,
+           internalType: "uint256",
+           name: "timestamp",
+           type: "uint256",
+         },
+       ],
+       name: "PatientInfoReaded",
+       type: "event",
+     },
+     {
+       inputs: [
+         {
+           internalType: "address",
+           name: "padd",
+           type: "address",
+         },
+       ],
+       name: "PatientInfoRead",
+       outputs: [
+         {
+           internalType: "string",
+           name: "",
+           type: "string",
+         },
+       ],
+       stateMutability: "view",
+       type: "function",
+     },
+     {
+       inputs: [
+         {
+           internalType: "string",
+           name: "_pb64i",
+           type: "string",
+         },
+       ],
+       name: "addPatientInfo",
+       outputs: [],
+       stateMutability: "nonpayable",
+       type: "function",
+     },
+     {
+       inputs: [],
+       name: "testConnection",
+       outputs: [
+         {
+           internalType: "string",
+           name: "",
+           type: "string",
+         },
+       ],
+       stateMutability: "pure",
+       type: "function",
+     },
+   ],
+   "0xB5B28Ab9D326b7f96F69988510C0f614810368ca"
+ );
+  
+  const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
+  const padd=Web3.utils.toChecksumAddress(address);
+  contract.then(res => {
+    res.methods
+      .PatientInfoRead(padd)
+      .call()
+      .then((re) => {
+        console.log(re);
+      });
+  })  
 }
