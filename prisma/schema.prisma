@@ -32,6 +32,7 @@ model Patients {
   emergentContactName        String
   emergentContactPhoneNumber String
   password                   String
+  accountAddress             String
   patientMedicationRecords   PatientMedicationRecord[]
 
   Doctor         Doctor? @relation(fields: [doctorDoctorId], references: [doctorId])
@@ -60,6 +61,7 @@ model MedicalInstitutions {
   doctors              Doctor[]
   email                String
   password             String
+  accountAddress       String
 }
 
 model Doctor {
@@ -77,6 +79,7 @@ model Doctor {
   medicationIinstitution  MedicalInstitutions       @relation(fields: [medicalInstitutionId], references: [medicalInstitutionId])
   PatientMedicationRecord PatientMedicationRecord[]
   password                String
+  accountAddress          String
 }
 
 model Users {

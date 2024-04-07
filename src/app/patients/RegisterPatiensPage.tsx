@@ -525,17 +525,31 @@ async function addPatientInfo_toBlockChain() {
        type: "function",
      },
    ],
-   "0xB5B28Ab9D326b7f96F69988510C0f614810368ca"
+   "0xEb41301fE2706690188bE31952cb6De8c5A2a00B"
  );
-  
+  // const web3 = gethInstance.getWeb3().then((web3) => {
+  //   web3.eth.personal.newAccount('zhao').then((address) => {
+  //     console.log('New account address:', address);
+  //   })
+  // })
   const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
   const padd=Web3.utils.toChecksumAddress(address);
   contract.then(res => {
     res.methods
       .PatientInfoRead(padd)
-      .call()
+      .call({
+      from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080", 
+      gas: "1000000",
+      gasPrice: "10000000000",
+    })
       .then((re) => {
         console.log(re);
       });
   })  
+
+
+
+
+
+
 }

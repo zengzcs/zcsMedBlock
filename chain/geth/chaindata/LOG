@@ -267,3 +267,38 @@
 18:47:36.890197 version@stat F·[3 2] S·3MiB[74KiB 3MiB] Sc·[0.75 0.04]
 18:47:36.918416 db@janitor F·7 G·0
 18:47:36.918454 db@open done T·36.910797ms
+19:17:54.949240 db@close closing
+19:17:54.949320 db@close done T·79.32µs
+=============== Apr 7, 2024 (CST) ===============
+19:18:01.151841 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:18:01.152013 version@stat F·[3 2] S·3MiB[74KiB 3MiB] Sc·[0.75 0.04]
+19:18:01.152038 db@open opening
+19:18:01.152105 journal@recovery F·1
+19:18:01.309717 journal@recovery recovering @64
+19:18:01.533184 memdb@flush created L0@66 N·6996 S·384KiB "H\x00a..\x1c\xa5\xcd,v102698":"\xf7\x8b\x04..\xe6\x82T,v108830"
+19:18:01.534110 version@stat F·[4 2] S·4MiB[459KiB 3MiB] Sc·[1.00 0.04]
+19:18:01.560987 db@janitor F·8 G·0
+19:18:01.561021 db@open done T·408.962586ms
+19:18:01.561055 table@compaction L0·4 -> L1·2 S·4MiB Q·108834
+19:18:01.612706 table@build created L1@69 N·34862 S·2MiB "\x00\x8f\xac..\x817\xf8,v51064":"h\x00\x00..N\x98P,v11643"
+19:18:01.733229 table@build created L1@70 N·29715 S·2MiB "h\x00\x00..\x98Pt,v11640":"\xff7D..I\x01\x99,v52782"
+19:18:01.733330 version@stat F·[0 2] S·4MiB[0B 4MiB] Sc·[0.00 0.04]
+19:18:01.873522 table@compaction committed F-4 S-120KiB Ke·0 D·3574 T·312.424851ms
+19:18:01.873683 table@remove removed @63
+19:18:01.873731 table@remove removed @60
+19:18:01.873789 table@remove removed @57
+19:18:01.874317 table@remove removed @55
+19:18:01.874686 table@remove removed @56
+19:21:47.667150 db@close closing
+19:21:47.667221 db@close done T·69.791µs
+=============== Apr 7, 2024 (CST) ===============
+19:22:29.489972 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:22:29.490754 version@stat F·[0 2] S·4MiB[0B 4MiB] Sc·[0.00 0.04]
+19:22:29.490779 db@open opening
+19:22:29.490862 journal@recovery F·1
+19:22:29.493049 journal@recovery recovering @67
+19:22:29.503868 memdb@flush created L0@71 N·199 S·15KiB "\x00͏..\x7f@-,v109030":"\xa8E\x01..b{\xba,v109029"
+19:22:29.504592 version@stat F·[1 2] S·4MiB[15KiB 4MiB] Sc·[0.25 0.04]
+19:22:29.548982 db@janitor F·6 G·1
+19:22:29.549013 db@janitor removing table-66
+19:22:29.549101 db@open done T·58.312768ms
