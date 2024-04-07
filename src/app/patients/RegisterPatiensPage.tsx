@@ -1,5 +1,6 @@
 "use Server";
 import * as dotenv from "dotenv";
+dotenv.config();
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
@@ -404,95 +405,93 @@ function BasicGrid() {
 }
 async function handleCommit() {
 
-
-const contract = gethInstance.getContract(
-  [
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: "address",
-          name: "add",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "timestamp",
-          type: "uint256",
-        },
-      ],
-      name: "PatientInfoCreate",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: "address",
-          name: "add",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "timestamp",
-          type: "uint256",
-        },
-      ],
-      name: "PatientInfoReaded",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "padd",
-          type: "address",
-        },
-      ],
-      name: "PatientInfoRead",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "string",
-          name: "_pb64i",
-          type: "string",
-        },
-      ],
-      name: "addPatientInfo",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "testConnection",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-  ],
-  "0xEb41301fE2706690188bE31952cb6De8c5A2a00B"
-);
+  const contractAddress: string = String(process.env.CONTRACT_ADDRESS);
+  console.log(contractAddress);
+const contract = gethInstance.getContract([
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "add",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "PatientInfoCreate",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "add",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "PatientInfoReaded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "padd",
+        type: "address",
+      },
+    ],
+    name: "PatientInfoRead",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_pb64i",
+        type: "stCONTRACT_ADDRESSring",
+      },
+    ],
+    name: "addPatientInfo",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "testConnection",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+],contractAddress);
 // const web3 = gethInstance.getWeb3().then((web3) => {
 //   web3.eth.personal.newAccount('zhao').then((address) => {
 //     console.log('New account address:', address);
