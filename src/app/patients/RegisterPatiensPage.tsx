@@ -1,6 +1,6 @@
 "use Server";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { Base64 } from "js-base64";
+
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
@@ -28,7 +28,6 @@ const Item = styled(Paper)(({ theme }) => ({
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
 import gethInstance from "../lib/getGethInstance";
-
 
 const sexies = [
   {
@@ -388,7 +387,7 @@ function BasicGrid() {
           >
             提交到数据库
           </Button>
-        </Grid>
+          {/* </Grid>
         <Grid item>
           <Button
             variant="contained"
@@ -397,139 +396,21 @@ function BasicGrid() {
             onClick={addPatientInfo_toBlockChain}
           >
             提交到Geth
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
     </Box>
   );
 }
 async function handleCommit() {
-
-  const contractAddress: string = String(process.env.CONTRACT_ADDRESS);
-  console.log(contractAddress);
-const contract = gethInstance.getContract([
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "add",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "PatientInfoCreate",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "add",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "PatientInfoReaded",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "padd",
-        type: "address",
-      },
-    ],
-    name: "PatientInfoRead",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_pb64i",
-        type: "stCONTRACT_ADDRESSring",
-      },
-    ],
-    name: "addPatientInfo",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "testConnection",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-],contractAddress);
-// const web3 = gethInstance.getWeb3().then((web3) => {
-//   web3.eth.personal.newAccount('zhao').then((address) => {
-//     console.log('New account address:', address);
-//   })
-// })
-const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
-const padd = Web3.utils.toChecksumAddress(address);
-contract.then((res) => {
-  res.methods
-    .PatientInfoRead(padd)
-    .call({
-      from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080",
-      gas: "1000000",
-      gasPrice: "10000000000",
-    })
-    .then((re) => {
-      console.log(re);
-    });
-});  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const accountAddress = gethInstance.createNewAccount(
+    document.getElementById("password").value
+  );
+  var add="";
+  await accountAddress.then((res) => {
+    console.log("AA" + res);
+    add=res
+  });
   const PatientPersonalInfoData = {
     name: document.getElementById("name").value,
     icNumber: document.getElementById("icNumber").value,
@@ -548,6 +429,7 @@ contract.then((res) => {
     medications: document.getElementById("medications").value,
     allergies: document.getElementById("allergies").value,
     password: document.getElementById("password").value,
+    accountAddress:add,
   };
 
   const jsonPayload = JSON.stringify(PatientPersonalInfoData);
@@ -556,7 +438,7 @@ contract.then((res) => {
 
   const a = await fetch("/api/setPatientsInfo", {
     method: "POST",
-    body: jsonPayload, 
+    body: jsonPayload,
   });
   console.log(a);
   if (a.ok) {
@@ -564,120 +446,118 @@ contract.then((res) => {
   } else {
     alert("提交失败");
   }
-}
 
-async function addPatientInfo_toBlockChain() {
- const contract = gethInstance.getContract(
-   [
-     {
-       anonymous: false,
-       inputs: [
-         {
-           indexed: false,
-           internalType: "address",
-           name: "add",
-           type: "address",
-         },
-         {
-           indexed: false,
-           internalType: "uint256",
-           name: "timestamp",
-           type: "uint256",
-         },
-       ],
-       name: "PatientInfoCreate",
-       type: "event",
-     },
-     {
-       anonymous: false,
-       inputs: [
-         {
-           indexed: false,
-           internalType: "address",
-           name: "add",
-           type: "address",
-         },
-         {
-           indexed: false,
-           internalType: "uint256",
-           name: "timestamp",
-           type: "uint256",
-         },
-       ],
-       name: "PatientInfoReaded",
-       type: "event",
-     },
-     {
-       inputs: [
-         {
-           internalType: "address",
-           name: "padd",
-           type: "address",
-         },
-       ],
-       name: "PatientInfoRead",
-       outputs: [
-         {
-           internalType: "string",
-           name: "",
-           type: "string",
-         },
-       ],
-       stateMutability: "view",
-       type: "function",
-     },
-     {
-       inputs: [
-         {
-           internalType: "string",
-           name: "_pb64i",
-           type: "string",
-         },
-       ],
-       name: "addPatientInfo",
-       outputs: [],
-       stateMutability: "nonpayable",
-       type: "function",
-     },
-     {
-       inputs: [],
-       name: "testConnection",
-       outputs: [
-         {
-           internalType: "string",
-           name: "",
-           type: "string",
-         },
-       ],
-       stateMutability: "pure",
-       type: "function",
-     },
-   ],
-   "0xEb41301fE2706690188bE31952cb6De8c5A2a00B"
- );
-  // const web3 = gethInstance.getWeb3().then((web3) => {
-  //   web3.eth.personal.newAccount('zhao').then((address) => {
-  //     console.log('New account address:', address);
-  //   })
-  // })
-  const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
-  const padd=Web3.utils.toChecksumAddress(address);
-  contract.then(res => {
+  const contract = gethInstance.getContract(
+    [
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "address",
+            name: "add",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+        ],
+        name: "PatientInfoCreate",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "address",
+            name: "add",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+        ],
+        name: "PatientInfoReaded",
+        type: "event",
+      },
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "padd",
+            type: "address",
+          },
+        ],
+        name: "PatientInfoRead",
+        outputs: [
+          {
+            internalType: "string",
+            name: "",
+            type: "string",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          {
+            internalType: "string",
+            name: "_pb64i",
+            type: "stCONTRACT_ADDRESSring",
+          },
+        ],
+        name: "addPatientInfo",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "testConnection",
+        outputs: [
+          {
+            internalType: "string",
+            name: "",
+            type: "string",
+          },
+        ],
+        stateMutability: "pure",
+        type: "function",
+      },
+    ],
+    "0x6fc21a244f7f16080d0e98ffac185a7d15865449"
+  );
+  const base64Encoded = Base64.encode(jsonPayload);
+  var CryptoJS = require("crypto-js");
+  const encrypted = String(
+    Base64.encode(
+      String(
+        CryptoJS.AES.encrypt(base64Encoded, PatientPersonalInfoData.password)
+      )
+    )
+  );
+  console.log(base64Encoded);
+  console.log(encrypted);
+  // const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
+  // const padd = Web3.utils.toChecksumAddress(address);
+  contract.then((res) => {
     res.methods
-      .PatientInfoRead(padd)
-      .call({
-      from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080", 
-      gas: "1000000",
-      gasPrice: "10000000000",
-    })
+      .addPatientInfo(encrypted)
+      .send({
+        from: "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080",
+        gas: "1000000",
+        gasPrice: "10000000000",
+      })
       .then((re) => {
         console.log(re);
       });
-  })  
-
-
-
-
-
-
+  });
 }

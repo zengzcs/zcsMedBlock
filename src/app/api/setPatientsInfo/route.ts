@@ -32,6 +32,7 @@ export const POST = async (req: NextRequest) => {
         emergentContactName: json.emergentContactName,
         emergentContactPhoneNumber: json.emergentContactPhoneNumber,
         password: await cryptoService.hashPassword(json.password),
+        accountAddress: json.accountAddress,
       },
     });
     console.log(await cryptoService.passwordMatches(json.password, a.password))
