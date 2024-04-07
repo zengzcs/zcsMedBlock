@@ -14,10 +14,10 @@ datasource db {
 }
 
 model Patients {
-  patientId                  Int                       @id @default(autoincrement())
+  patientId                  Int     @id @default(autoincrement())
   phoneNumber                String
   name                       String?
-  icNumber                   String                    @unique
+  icNumber                   String  @unique
   email                      String?
   gender                     String
   height                     Float
@@ -29,8 +29,8 @@ model Patients {
   diagnosisHistory           String
   emergentContactName        String
   emergentContactPhoneNumber String
-  patientMedicalRecordHash   String?
-  patientMedicationRecords   PatientMedicationRecord[]
+
+  patientMedicationRecords PatientMedicationRecord[]
 
   Doctor         Doctor? @relation(fields: [doctorDoctorId], references: [doctorId])
   doctorDoctorId Int?
@@ -57,16 +57,15 @@ model MedicalInstitutions {
 }
 
 model Doctor {
-  doctorId                Int                       @id @default(autoincrement())
-  medicalInstitutionId    Int
-  name                    String
-  gender                  String
-  icNumber                String                    @unique
-  phoneNumber             String
-  email                   String
-  category                String
-  patientsHaveAuthorized  Patients[]
-  authorizedPatientsHash  String?
+  doctorId               Int        @id @default(autoincrement())
+  medicalInstitutionId   Int
+  name                   String
+  gender                 String
+  icNumber               String     @unique
+  phoneNumber            String
+  email                  String
+  category               String
+  patientsHaveAuthorized Patients[]
   medicationIinstitution  MedicalInstitutions       @relation(fields: [medicalInstitutionId], references: [medicalInstitutionId])
   PatientMedicationRecord PatientMedicationRecord[]
 }

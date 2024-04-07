@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "Patients" (
     "patientId" SERIAL NOT NULL,
@@ -24,7 +15,6 @@ CREATE TABLE "Patients" (
     "diagnosisHistory" TEXT NOT NULL,
     "emergentContactName" TEXT NOT NULL,
     "emergentContactPhoneNumber" TEXT NOT NULL,
-    "patientMedicalRecordHash" TEXT,
     "doctorDoctorId" INTEGER,
 
     CONSTRAINT "Patients_pkey" PRIMARY KEY ("patientId")
@@ -63,7 +53,6 @@ CREATE TABLE "Doctor" (
     "phoneNumber" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "category" TEXT NOT NULL,
-    "authorizedPatientsHash" TEXT,
 
     CONSTRAINT "Doctor_pkey" PRIMARY KEY ("doctorId")
 );

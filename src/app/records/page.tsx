@@ -63,7 +63,7 @@ function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label=医疗信息概览" {...a11yProps(0)} />
+          <Tab label="医疗信息概览" {...a11yProps(0)} />
           <Tab label="创建医疗信息记录" {...a11yProps(1)} />
         </Tabs>
       </Box>

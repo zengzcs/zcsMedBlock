@@ -2,11 +2,163 @@
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
-export default function RegisterPatient() {
+
+// async function show() {
+//   const pInfo = await getPatiensInfo();
+//   let map: Map<string, string> = new Map();
+//   for (var i of pInfo) {
+//     map.set(i.patientId,i.name)
+//   }
+//   console.log(map);
+//   const entries=Array.from(map.entries());
+// }
+var patientid = 1;
+var doctorid = 1;
+function handlePatientId(event) {
+  patientid = event.target.value;
+}
+function handleDoctorId(event) {
+  doctorid = event.target.value;
+}
+
+export default async function RegisterPatient() {
+  let map: Map<string, string> = new Map();
+  let doctorMap: Map<string, string> = new Map();
+  try {
+    const responsePatient = await fetch("/api/getPatientsInfo", {
+      method: "GET",
+    });
+
+    const responseDoctors = await fetch("/api/getDoctorInfo", {
+      method: "GET",
+    });
+    if (!responsePatient.ok) {
+      throw new Error(responsePatient.statusText);
+    }
+    if (!responseDoctors.ok) {
+      throw new Error(`HTTP error! status: ${responseDoctors.status}`);
+    }
+    const dInfo = await responseDoctors.json();
+    const pInfo = await responsePatient.json();
+    dInfo.forEach((doctorInfo) => {
+      doctorMap.set(doctorInfo.doctorId, doctorInfo.name);
+    });
+    pInfo.forEach((patientInfo) => {
+      map.set(patientInfo.patientId, patientInfo.name);
+    });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+  const entries = Array.from(map.entries());
+  const doctorEntries = Array.from(doctorMap.entries());
   return (
-    <div>
-      <BasicGrid></BasicGrid>
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <Alert severity="info">基本信息填写</Alert>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "45ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="patientSelected"
+              select
+              label="选择病人"
+              onChange={handlePatientId}
+              // defaultValue="beijing"
+            >
+              {entries.map(([key, value]) => (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="doctorSelected"
+              select
+              label="选择医生"
+              onChange={handleDoctorId}
+              // defaultValue="beijing"
+            >
+              {doctorEntries.map(([key, value]) => (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        </Grid>
+      </Grid>
+      <Alert severity="info">记录信息填写</Alert>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "60ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="diagnosis"
+              label="诊断结果"
+              multiline
+              rows={4}
+              defaultValue=""
+              variant="outlined"
+            />
+            <TextField
+              id="medicine"
+              label="处方"
+              multiline
+              rows={4}
+              defaultValue=""
+              variant="outlined"
+            />
+          </Box>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "55ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="medicalDataHash"
+              label="上传医疗数据"
+              multiline
+              rows={3}
+              defaultValue=""
+              variant="outlined"
+            />
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        {" "}
+        <Grid item>
+          <Button variant="contained" endIcon={<SendIcon />} size="large">
+            提交到数据库
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            size="large"
+            // onClick={HandleCommitToBlockChain}
+          >
+            提交到Geth
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 import * as React from "react";
@@ -23,174 +175,4 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 import TextField from "@mui/material/TextField";
-import { Autocomplete, Button, MenuItem } from "@mui/material";
-import { Prisma } from "@prisma/client";
-import HandleDoctorInfoCommitToBlockChain from "../lib/HandleDoctorInfoCommitToBlockChain";
-const sexies = [
-  {
-    value: "男",
-    label: "男",
-  },
-
-  {
-    value: "女",
-    label: "女",
-  },
-];
-const doctorCategories = {
-  内科医生: "Internist",
-  外科医生: "Surgeon",
-  儿科医生: "Pediatrician",
-  妇产科医生: "Obstetrician-Gynecologist",
-  眼科医生: "Ophthalmologist",
-  耳鼻喉科医生: "Otorhinolaryngologist",
-  皮肤科医生: "Dermatologist",
-  精神科医生: "Psychiatrist",
-  急诊科医生: "Emergency Physician",
-  麻醉科医生: "Anesthesiologist",
-  放射科医生: "Radiologist",
-  病理科医生: "Pathologist",
-  肿瘤科医生: "Oncologist",
-  心血管科医生: "Cardiologist",
-  神经科医生: "Neurologist",
-  骨科医生: "Orthopedist",
-  泌尿科医生: "Urologist",
-  内分泌科医生: "Endocrinologist",
-  消化科医生: "Gastroenterologist",
-  呼吸科医生: "Pulmonologist",
-  感染科医生: "Infectious Disease Specialist",
-  康复医学科医生: "Rehabilitation Medicine Specialist",
-  中医医生: "Traditional Chinese Medicine Practitioner",
-  牙科医生: "Dentist",
-};
-
-const doctorsArray = Object.entries(doctorCategories).map(([key, value]) => {
-  return {
-    value: value,
-    label: key,
-  };
-});
-export const getDoctorInfo = () => {
-  const doctorJSON = {
-    name: document.getElementById("name").value,
-    gender: document.getElementById("gender").textContent,
-    icNumber: document.getElementById("icNumber").value,
-    phoneNumber: document.getElementById("phoneNumber").value,
-    category: document.getElementById("category").textContent,
-    email: document.getElementById("email").value,
-  };
-  return doctorJSON;
-};
-async function handleCommitToDatabase() {
-  const doctorInfo = getDoctorInfo();
-  const jsonPayload = JSON.stringify(doctorInfo);
-  console.log(jsonPayload);
-  const a = await fetch("/api/storageDoctorInfo", {
-    method: "POST",
-    body: jsonPayload,
-  });
-  console.log(a);
-  if (a.ok) {
-    alert("提交成功");
-  } else {
-    alert("提交失败");
-  }
-}
-
-function BasicGrid() {
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Alert severity="info">基本信息填写</Alert>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "45ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              required
-              id="name"
-              label="姓名"
-              defaultValue=""
-              variant="outlined"
-            />
-            <TextField
-              required
-              id="icNumber"
-              label="身份证号"
-              defaultValue=""
-            />
-
-            <TextField
-              required
-              id="phoneNumber"
-              label="电话号码"
-              defaultValue=""
-              variant="outlined"
-            />
-
-            <TextField
-              id="category"
-              select
-              label="专业"
-              defaultValue="Internist"
-            >
-              {doctorsArray.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TextField
-              id="email"
-              label="电子邮件"
-              defaultValue=""
-              variant="outlined"
-            />
-
-            <TextField id="gender" select label="性别" defaultValue="男">
-              {sexies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        {" "}
-        {/* 间隔为 24px */}
-        <Grid item>
-          <Button
-            variant="contained"
-            endIcon={<SendIcon />}
-            size="large"
-            onClick={handleCommitToDatabase}
-          >
-            提交到数据库
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            endIcon={<SendIcon />}
-            size="large"
-            onClick={HandleDoctorInfoCommitToBlockChain}
-          >
-            提交到Geth
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-}
-
-export default function CreateMedicalRecordPage() {
-  return <div></div>;
-}
+import { Button, MenuItem } from "@mui/material";

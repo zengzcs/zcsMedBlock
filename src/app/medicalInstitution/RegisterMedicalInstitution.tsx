@@ -355,7 +355,7 @@ function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            // onClick={handleCommit}
+            onClick={handleCommit}
           >
             提交到数据库
           </Button>
@@ -373,4 +373,29 @@ function BasicGrid() {
       </Grid>
     </Box>
   );
+}
+
+
+  
+
+
+
+async function handleCommit() {
+  const Data = {
+    name: document.getElementById("name")?.value,
+    region: document.getElementById("regionsInChina")?.textContent,
+    grade: document.getElementById("hospitalGrade")?.textContent,
+  };
+  const jsonPayload = JSON.stringify(Data);
+  console.log(jsonPayload);
+  const a = await fetch("/api/setMedicalInstitution", {
+    method: "POST",
+    body: jsonPayload, 
+  });
+  console.log(a);
+  if (a.ok) {
+    alert("提交成功");
+  } else {
+    alert("提交失败");
+  }
 }

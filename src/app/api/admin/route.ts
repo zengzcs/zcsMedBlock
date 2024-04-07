@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.patientPersonalInfo.create({
+    const a = await prisma.patients.create({
       data: {
         phoneNumber: json.phoneNumber,
         name: json.name,

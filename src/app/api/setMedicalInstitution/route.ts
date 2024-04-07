@@ -14,15 +14,12 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.doctor.create({
+    const a = await prisma.medicalInstitutions.create({
       data: {
-        phoneNumber: json.phoneNumber,
         name: json.name,
-        icNumber: json.icNumber,
-        email: json.email,
-        gender: json.gender,
-        category: json.category,
-        medicalInstitutionId: Number.parseInt(json.medicalInstitutionId),
+        region: json.region,
+        grade: json.grade,
+        
       },
     });
 

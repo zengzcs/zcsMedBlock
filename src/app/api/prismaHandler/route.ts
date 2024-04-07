@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { checkPrime } from "crypto";
-export const GET = async (req:NextRequest) => {
-    
-  return NextResponse.json({ msg: "OK" }, { status: 200 });
-};
+import easyGet from "@/app/lib/HandleGet";
+import { NextApiRequest } from "next";
+
 export const POST = async (req: NextRequest) => {
   const prisma = new PrismaClient();
   const response = req.body;
@@ -15,19 +14,9 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.doctorInfo.create({
-      data: {
-        phoneNumber: json.phoneNumber,
-        name: json.name,
-        icNumber: json.icNumber,
-        email: json.email,
-        gender: json.gender,
-        category: json.category,
-      },
-    });
-
-    const stringText = JSON.stringify(json);
-
+        const dbname = json.dbname;
+        const info = eval(`await prisma.${dbname}.findMany()`);
+        console.log(info);
     return NextResponse.json({ msg: "ok" }, { status: 200 });
   } catch (e) {
     console.log(e);

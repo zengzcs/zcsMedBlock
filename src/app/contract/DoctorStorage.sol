@@ -1,13 +1,103 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.8.2 <0.9.0;
+pragma solidity ^0.8.0;
 
-contract DoctorStorage{
-    string doctorInfo;
-    function store(string memory info) public{
-        doctorInfo=info;
-
+contract PatientRecords {
+    struct Record {
+        string name;
+        string phoneNumber;
+        string icNumber;
+        string email;
+        string gender;
+        uint height;
+        uint weight;
+        string occupation;
+        string paddress;
+        string bloodGroup;
+        string allergiesHistory;
+        string diagnosisHistory;
+        string emergentContactName;
+        string emergentContactPhoneNumber;
     }
-    function retrieve() public view returns(string memory){
-        return doctorInfo;
+
+    mapping(address => Record) public patientRecords;
+
+    event RecordAdded(address indexed patient, uint timestamp);
+    event RecordUpdated(address indexed patient, uint timestamp);
+
+    function addRecord(
+        string memory _name,
+        string memory _phoneNumber,
+        string memory _icNumber,
+        string memory _email,
+        string memory _gender,
+        uint _height,
+        uint _weight,
+        string memory _occupation,
+        string memory _paddress,
+        string memory _bloodGroup,
+        string memory _allergiesHistory,
+        string memory _diagnosisHistory,
+        string memory _emergentContactName,
+        string memory _emergentContactPhoneNumber
+    ) public {
+        Record memory newRecord;
+        newRecord.name = _name;
+        newRecord.phoneNumber = _phoneNumber;
+        newRecord.icNumber = _icNumber;
+        newRecord.email = _email;
+        newRecord.gender = _gender;
+        newRecord.height = _height;
+        newRecord.weight = _weight;
+        newRecord.occupation = _occupation;
+        newRecord.paddress = _paddress;
+        newRecord.bloodGroup = _bloodGroup;
+        newRecord.allergiesHistory = _allergiesHistory;
+        newRecord.diagnosisHistory = _diagnosisHistory;
+        newRecord.emergentContactName = _emergentContactName;
+        newRecord.emergentContactPhoneNumber = _emergentContactPhoneNumber;
+
+        patientRecords[msg.sender] = newRecord;
+        emit RecordAdded(msg.sender, block.timestamp);
+    }
+
+    function updateRecord(
+        string memory _name,
+        string memory _phoneNumber,
+        string memory _icNumber,
+        string memory _email,
+        string memory _gender,
+        uint _height,
+        uint _weight,
+        string memory _occupation,
+        string memory _paddress,
+        string memory _bloodGroup,
+        string memory _allergiesHistory,
+        string memory _diagnosisHistory,
+        string memory _emergentContactName,
+        string memory _emergentContactPhoneNumber
+    ) public {
+        Record storage existingRecord = patientRecords[msg.sender];
+        // 更新记录的字段
+        existingRecord.name = _name;
+        existingRecord.phoneNumber = _phoneNumber;
+        // ... 其他字段的更新逻辑
+            existingRecord.icNumber = _icNumber;
+    existingRecord.email = _email;
+    existingRecord.gender = _gender;
+    existingRecord.height = _height;
+    existingRecord.weight = _weight;
+    existingRecord.occupation = _occupation;
+    existingRecord.paddress = _paddress;
+    existingRecord.bloodGroup = _bloodGroup;
+    existingRecord.allergiesHistory = _allergiesHistory;
+    existingRecord.diagnosisHistory = _diagnosisHistory;
+    existingRecord.emergentContactName = _emergentContactName;
+    existingRecord.emergentContactPhoneNumber = _emergentContactPhoneNumber;
+
+        emit RecordUpdated(msg.sender, block.timestamp);
+    }
+
+    // 函数来获取病人信息，可能需要考虑隐私保护
+    function getPatientRecord(address patient) public view returns (Record memory) {
+        return patientRecords[patient];
     }
 }

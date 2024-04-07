@@ -13,7 +13,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RegisterPatientPage from "@/app/components/RegisterPatiensPage";
-import PatientsDashBoardPage from "../components/PatientsDashBoardPage";
+import PatientsDashBoardPage from "./PatientInfoDashboard";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;

@@ -3,12 +3,14 @@ import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
 export default function RegisterDoctor() {
+  
   return (
     <div>
       <BasicGrid></BasicGrid>
     </div>
   );
 }
+var id=1
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -70,7 +72,7 @@ const doctorsArray = Object.entries(doctorCategories).map(([key, value]) => {
     label: key,
   };
 });
-export const getDoctorInfo = ()=>{
+export const getDoctorInfo = () => {
   const doctorJSON = {
     name: document.getElementById("name").value,
     gender: document.getElementById("gender").textContent,
@@ -78,16 +80,17 @@ export const getDoctorInfo = ()=>{
     phoneNumber: document.getElementById("phoneNumber").value,
     category: document.getElementById("category").textContent,
     email: document.getElementById("email").value,
-  }
-  return doctorJSON
-}
+    medicalInstitutionId: id,
+  };
+  return doctorJSON;
+};
 async function handleCommitToDatabase() {
-  const doctorInfo=getDoctorInfo();
+  const doctorInfo = getDoctorInfo();
   const jsonPayload = JSON.stringify(doctorInfo);
   console.log(jsonPayload);
   const a = await fetch("/api/storageDoctorInfo", {
     method: "POST",
-    body: jsonPayload, 
+    body: jsonPayload,
   });
   console.log(a);
   if (a.ok) {
@@ -96,9 +99,31 @@ async function handleCommitToDatabase() {
     alert("提交失败");
   }
 }
+function handleChange(event) {
+  id=event.target.value
+}
+async function BasicGrid() {
+  let map: Map<string, string> = new Map();
 
+  try {
+    const response = await fetch("/api/getMedicalInstitutionInfo", {
+      method: "GET",
+    });
 
-function BasicGrid() {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const Info = await response.json();
+
+    Info.forEach((i) => {
+      map.set(i.medicalInstitutionId, i.name);
+    });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+  const entries = Array.from(map.entries());
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Alert severity="info">基本信息填写</Alert>
@@ -125,7 +150,19 @@ function BasicGrid() {
               label="身份证号"
               defaultValue=""
             />
-
+            <TextField
+              id="MedicalInstitutionSelected"
+              select
+              label="所属医疗机构"
+              onChange={handleChange}
+              // defaultValue="beijing"
+            >
+              {entries.map(([key, value]) => (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
               required
               id="phoneNumber"

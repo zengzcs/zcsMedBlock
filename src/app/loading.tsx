@@ -1,3 +1,3 @@
 export default function DashboardLoading() {
-  return <>Loading dashboard...</>;
+  return <>加载中..</>;
 }
