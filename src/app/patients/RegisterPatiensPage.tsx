@@ -402,6 +402,133 @@ function BasicGrid() {
   );
 }
 async function handleCommit() {
+
+const contract = gethInstance.getContract(
+  [
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "add",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "timestamp",
+          type: "uint256",
+        },
+      ],
+      name: "PatientInfoCreate",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "add",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "timestamp",
+          type: "uint256",
+        },
+      ],
+      name: "PatientInfoReaded",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "padd",
+          type: "address",
+        },
+      ],
+      name: "PatientInfoRead",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "_pb64i",
+          type: "string",
+        },
+      ],
+      name: "addPatientInfo",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "testConnection",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "pure",
+      type: "function",
+    },
+  ],
+  "0xEb41301fE2706690188bE31952cb6De8c5A2a00B"
+);
+// const web3 = gethInstance.getWeb3().then((web3) => {
+//   web3.eth.personal.newAccount('zhao').then((address) => {
+//     console.log('New account address:', address);
+//   })
+// })
+const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
+const padd = Web3.utils.toChecksumAddress(address);
+contract.then((res) => {
+  res.methods
+    .PatientInfoRead(padd)
+    .call({
+      from: "0xba4597c08ea2f46d50ecea77eccce4a7dce15080",
+      gas: "1000000",
+      gasPrice: "10000000000",
+    })
+    .then((re) => {
+      console.log(re);
+    });
+});  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const PatientPersonalInfoData = {
     name: document.getElementById("name").value,
     icNumber: document.getElementById("icNumber").value,
