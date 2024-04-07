@@ -14,7 +14,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import handleCommit from "./HandleCommit";
+
 import HandleCommitToBlockChain from "../lib/HandleCommitToBlockChain";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,7 +25,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-import { Prisma } from "@prisma/client";
+
+
+
 const sexies = [
   {
     value: "男",
@@ -251,6 +253,7 @@ function BasicGrid() {
 
             <TextField
               id="email"
+              type="email"
               label="电子邮件"
               defaultValue=""
               variant="outlined"
@@ -309,6 +312,13 @@ function BasicGrid() {
           >
             <TextField
               required
+              id="password"
+              label="用户密码"
+              type="password"
+              autoComplete="current-password"
+            />
+            <TextField
+              required
               id="address"
               label="居住地址"
               defaultValue=""
@@ -365,7 +375,6 @@ function BasicGrid() {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        
         {" "}
         {/* 间隔为 24px */}
         <Grid item>
@@ -391,4 +400,40 @@ function BasicGrid() {
       </Grid>
     </Box>
   );
+}
+async function handleCommit() {
+  const PatientPersonalInfoData = {
+    name: document.getElementById("name").value,
+    icNumber: document.getElementById("icNumber").value,
+    phoneNumber: document.getElementById("phoneNumber").value,
+    occupation: document.getElementById("occupation").textContent,
+    email: document.getElementById("email").value,
+    gender: document.getElementById("sex").textContent,
+    height: document.getElementById("height").value,
+    weight: document.getElementById("weight").value,
+    bloodGroup: document.getElementById("bloodGroup").textContent,
+    address: document.getElementById("address").value,
+    emergentContactName: document.getElementById("emergentContactName").value,
+    emergentContactPhoneNumber: document.getElementById(
+      "emergentContactPhoneNumber"
+    ).value,
+    medications: document.getElementById("medications").value,
+    allergies: document.getElementById("allergies").value,
+    password: document.getElementById("password").value,
+  };
+
+  const jsonPayload = JSON.stringify(PatientPersonalInfoData);
+
+  console.log(jsonPayload);
+
+  const a = await fetch("/api/setPatientsInfo", {
+    method: "POST",
+    body: jsonPayload, 
+  });
+  console.log(a);
+  if (a.ok) {
+    alert("提交成功");
+  } else {
+    alert("提交失败");
+  }
 }

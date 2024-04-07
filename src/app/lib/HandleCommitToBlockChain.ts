@@ -1,5 +1,4 @@
 import { Web3 } from "web3";
-import { getPatientInfoJSON } from "../components/HandleCommit";
 import { Base64 } from "js-base64";
 
 export default async function HandleCommitToBlockChain(
@@ -7,7 +6,7 @@ export default async function HandleCommitToBlockChain(
   contractAddress = "0x20ce4E871Ef7441677D689d162170C3B08a97E06",
   key = "KEY"
 ) {
-  const data = JSON.stringify(getPatientInfoJSON());
+  const data = JSON.stringify("");
   console.log(data);
 
   const web3: Web3 = new Web3(

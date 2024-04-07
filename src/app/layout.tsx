@@ -38,7 +38,7 @@ const LINKS = [
   { text: "医生管理", href: "/doctors", icon: MedicationLiquidIcon },
   { text: "病人管理", href: "/patients", icon: AccessibleIcon },
   { text: "医疗机构管理", href: "/medicalInstitution", icon: AccountBalanceIcon},
-  { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
+  // { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
   { text: "系统测试", href: "/tests", icon: BugReportIcon },
 ];
 

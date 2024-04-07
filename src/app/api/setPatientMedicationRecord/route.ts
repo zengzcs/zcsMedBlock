@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-
+import { checkPrime } from "crypto";
 import cryptoService from "../../lib/crypto";
 export const GET = () => {
   return NextResponse.json({ msg: "OK" }, { status: 200 });
@@ -15,16 +15,13 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.doctor.create({
+    const a = await prisma.patientMedicationRecord.create({
       data: {
-        phoneNumber: json.phoneNumber,
-        name: json.name,
-        icNumber: json.icNumber,
-        email: json.email,
-        gender: json.gender,
-        category: json.category,
-        medicalInstitutionId: Number.parseInt(json.medicalInstitutionId),
-        password: await cryptoService.hashPassword(json.password),
+        patientId: Number.parseInt(json.patientId),
+        docterId: Number.parseInt(json.docterId),
+        diagnosis: json.diagnosis,
+        medicine: json.medicine,
+        
       },
     });
 

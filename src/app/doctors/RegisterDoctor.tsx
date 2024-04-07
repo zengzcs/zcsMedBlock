@@ -16,7 +16,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import HandleCommitToBlockChain from "../lib/HandleCommitToBlockChain";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -28,6 +28,7 @@ import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import HandleDoctorInfoCommitToBlockChain from "../lib/HandleDoctorInfoCommitToBlockChain";
+
 const sexies = [
   {
     value: "男",
@@ -81,6 +82,7 @@ export const getDoctorInfo = () => {
     category: document.getElementById("category").textContent,
     email: document.getElementById("email").value,
     medicalInstitutionId: id,
+    password: document.getElementById("password").value,
   };
   return doctorJSON;
 };
@@ -186,9 +188,17 @@ async function BasicGrid() {
 
             <TextField
               id="email"
+              type="email"
               label="电子邮件"
               defaultValue=""
               variant="outlined"
+            />
+            <TextField
+              required
+              id="password"
+              label="用户密码"
+              type="password"
+              autoComplete="current-password"
             />
 
             <TextField id="gender" select label="性别" defaultValue="男">
@@ -219,7 +229,7 @@ async function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            onClick={HandleDoctorInfoCommitToBlockChain}
+            // onClick={HandleDoctorInfoCommitToBlockChain}
           >
             提交到Geth
           </Button>

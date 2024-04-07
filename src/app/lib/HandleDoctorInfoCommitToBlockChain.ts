@@ -1,5 +1,5 @@
 import { Web3 } from "web3";
-import { getDoctorInfo } from "../components/RegisterDoctor";
+import { getDoctorInfo } from "../doctors/RegisterDoctor";
 import { Base64 } from "js-base64";
 
 export default async function HandleDoctorInfoCommitToBlockChain(

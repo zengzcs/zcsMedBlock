@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { checkPrime } from "crypto";
+import cryptoService from "../../lib/crypto";
 export const GET = () => {
   return NextResponse.json({ msg: "OK" }, { status: 200 });
 };
@@ -19,7 +20,8 @@ export const POST = async (req: NextRequest) => {
         name: json.name,
         region: json.region,
         grade: json.grade,
-        
+        password: await cryptoService.hashPassword(json.password),
+        email:json.email,
       },
     });
 

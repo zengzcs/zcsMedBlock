@@ -14,14 +14,51 @@ import SendIcon from "@mui/icons-material/Send";
 // }
 var patientid = 1;
 var doctorid = 1;
+var institutionid=1
 function handlePatientId(event) {
   patientid = event.target.value;
+  alert(patientid)
 }
 function handleDoctorId(event) {
   doctorid = event.target.value;
 }
+function handleInstitutionId(event) {
+  institutionid = event.target.value;
+}
+
+
+
+
 
 export default async function RegisterPatient() {
+
+  let institutionMap: Map<string, string> = new Map();
+  try {
+    const responseInstitution = await fetch("/api/getMedicalInstitutionInfo", {
+      method: "GET",
+    });
+
+
+    if (!responseInstitution.ok) {
+      throw new Error(responseInstitution.statusText);
+
+    }
+    
+    const dInfo = await responseInstitution.json();
+
+    dInfo.forEach((insInfo) => {
+      institutionMap.set(insInfo.medicalInstitutionId, insInfo.name);
+    });
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+
+  }
+
+  const institutionEntries = Array.from(institutionMap.entries());
+
+
+
+
   let map: Map<string, string> = new Map();
   let doctorMap: Map<string, string> = new Map();
   try {
@@ -34,20 +71,26 @@ export default async function RegisterPatient() {
     });
     if (!responsePatient.ok) {
       throw new Error(responsePatient.statusText);
+
     }
     if (!responseDoctors.ok) {
       throw new Error(`HTTP error! status: ${responseDoctors.status}`);
+
     }
     const dInfo = await responseDoctors.json();
+    const pInfo = await responsePatient.json();
 
     dInfo.forEach((doctorInfo) => {
       doctorMap.set(doctorInfo.doctorId, doctorInfo.name);
     });
     pInfo.forEach((patientInfo) => {
       map.set(patientInfo.patientId, patientInfo.name);
+  
     });
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
+
+    
   }
   const entries = Array.from(map.entries());
   const doctorEntries = Array.from(doctorMap.entries());
@@ -90,10 +133,23 @@ export default async function RegisterPatient() {
                 </MenuItem>
               ))}
             </TextField>
+            <TextField
+              id="institutionSelected"
+              select
+              label="选择机构"
+              onChange={handleInstitutionId}
+              // defaultValue="beijing"
+            >
+              {institutionEntries.map(([key, value]) => (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+            </TextField>
           </Box>
         </Grid>
       </Grid>
-      <Alert severity="info">记录信息填写</Alert>
+      <Alert severity="info">注册密码</Alert>
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Box
@@ -105,38 +161,12 @@ export default async function RegisterPatient() {
             autoComplete="off"
           >
             <TextField
-              id="diagnosis"
-              label="诊断结果"
-              multiline
-              rows={4}
-              defaultValue=""
-              variant="outlined"
+              id="password"
+              label="用户密码"
+              type="password"
+              autoComplete="current-password"
             />
-            <TextField
-              id="medicine"
-              label="处方"
-              multiline
-              rows={4}
-              defaultValue=""
-              variant="outlined"
-            />
-          </Box>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "55ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="medicalDataHash"
-              label="上传医疗数据"
-              multiline
-              rows={3}
-              defaultValue=""
-              variant="outlined"
-            />
+            
           </Box>
         </Grid>
       </Grid>

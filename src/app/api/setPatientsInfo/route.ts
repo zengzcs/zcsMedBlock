@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { checkPrime } from "crypto";
+import cryptoService from "../../lib/crypto";
 export const GET = () => {
   return NextResponse.json({ msg: "OK" }, { status: 200 });
 };
@@ -13,6 +13,7 @@ export const POST = async (req: NextRequest) => {
   const json = JSON.parse(deciphertext);
   console.log("json");
   console.log(json);
+
   try {
     const a = await prisma.patients.create({
       data: {
@@ -30,9 +31,10 @@ export const POST = async (req: NextRequest) => {
         diagnosisHistory: json.medications,
         emergentContactName: json.emergentContactName,
         emergentContactPhoneNumber: json.emergentContactPhoneNumber,
+        password: await cryptoService.hashPassword(json.password),
       },
     });
-
+    console.log(await cryptoService.passwordMatches(json.password, a.password))
     const stringText = JSON.stringify(json)
     
 

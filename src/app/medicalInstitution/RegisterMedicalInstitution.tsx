@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-import { Prisma } from "@prisma/client";
+
 
 const hospitalGrades = [
   {
@@ -345,6 +345,21 @@ function BasicGrid() {
                 </MenuItem>
               ))}
             </TextField>
+            <TextField
+              required
+              id="email"
+              type="email"
+              label="电子邮件"
+             
+              variant="outlined"
+            />
+            <TextField
+              required
+              id="password"
+              label="机构用户密码"
+              type="password"
+              autoComplete="current-password"
+            />
           </Box>
         </Grid>
       </Grid>
@@ -385,6 +400,9 @@ async function handleCommit() {
     name: document.getElementById("name")?.value,
     region: document.getElementById("regionsInChina")?.textContent,
     grade: document.getElementById("hospitalGrade")?.textContent,
+    email: document.getElementById("email")?.value,
+    password: document.getElementById("password")?.value
+
   };
   const jsonPayload = JSON.stringify(Data);
   console.log(jsonPayload);

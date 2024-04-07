@@ -12,7 +12,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import RegisterPatient from "@/app/components/RegisterPatiensPage";
+import RegisterPatient from "@/app/patients/RegisterPatiensPage";
 import RegisterDoctor from "@/app/components/RegisterDoctor";
 import CreateMedicalRecordPage from "./CreateMedicalRecordPage";
 interface TabPanelProps {

@@ -16,6 +16,7 @@ contract PatientRecords {
         string diagnosisHistory;
         string emergentContactName;
         string emergentContactPhoneNumber;
+        string password;
     }
 
     mapping(address => Record) public patientRecords;
@@ -37,7 +38,8 @@ contract PatientRecords {
         string memory _allergiesHistory,
         string memory _diagnosisHistory,
         string memory _emergentContactName,
-        string memory _emergentContactPhoneNumber
+        string memory _emergentContactPhoneNumber,
+        string memory _password
     ) public {
         Record memory newRecord;
         newRecord.name = _name;
@@ -54,6 +56,7 @@ contract PatientRecords {
         newRecord.diagnosisHistory = _diagnosisHistory;
         newRecord.emergentContactName = _emergentContactName;
         newRecord.emergentContactPhoneNumber = _emergentContactPhoneNumber;
+        newRecord.password = _password;
 
         patientRecords[msg.sender] = newRecord;
         emit RecordAdded(msg.sender, block.timestamp);
@@ -73,31 +76,34 @@ contract PatientRecords {
         string memory _allergiesHistory,
         string memory _diagnosisHistory,
         string memory _emergentContactName,
-        string memory _emergentContactPhoneNumber
+        string memory _emergentContactPhoneNumber,
+        string memory _password
     ) public {
         Record storage existingRecord = patientRecords[msg.sender];
-        // 更新记录的字段
         existingRecord.name = _name;
         existingRecord.phoneNumber = _phoneNumber;
-        // ... 其他字段的更新逻辑
-            existingRecord.icNumber = _icNumber;
-    existingRecord.email = _email;
-    existingRecord.gender = _gender;
-    existingRecord.height = _height;
-    existingRecord.weight = _weight;
-    existingRecord.occupation = _occupation;
-    existingRecord.paddress = _paddress;
-    existingRecord.bloodGroup = _bloodGroup;
-    existingRecord.allergiesHistory = _allergiesHistory;
-    existingRecord.diagnosisHistory = _diagnosisHistory;
-    existingRecord.emergentContactName = _emergentContactName;
-    existingRecord.emergentContactPhoneNumber = _emergentContactPhoneNumber;
+
+        existingRecord.icNumber = _icNumber;
+        existingRecord.email = _email;
+        existingRecord.gender = _gender;
+        existingRecord.height = _height;
+        existingRecord.weight = _weight;
+        existingRecord.occupation = _occupation;
+        existingRecord.paddress = _paddress;
+        existingRecord.bloodGroup = _bloodGroup;
+        existingRecord.allergiesHistory = _allergiesHistory;
+        existingRecord.diagnosisHistory = _diagnosisHistory;
+        existingRecord.emergentContactName = _emergentContactName;
+        existingRecord.emergentContactPhoneNumber = _emergentContactPhoneNumber;
+        existingRecord.password = _password;
 
         emit RecordUpdated(msg.sender, block.timestamp);
     }
 
     // 函数来获取病人信息，可能需要考虑隐私保护
-    function getPatientRecord(address patient) public view returns (Record memory) {
+    function getPatientRecord(
+        address patient
+    ) public view returns (Record memory) {
         return patientRecords[patient];
     }
 }
