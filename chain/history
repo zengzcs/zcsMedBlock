@@ -32,3 +32,10 @@ miner.start(1)
 miner.stop()
 eth.accounts
 miner.start(1)
+eth.accounts
+eth.sendTransaction({from:"0xba4597c08ea2f46d50ecea77eccce4a7dce15080",to:"0x1d7a9223345b22dd6ade8f28445a1e58eede2cf5",value:web3.toWei(100,"ether")})
+eth.sendTransaction({from:"0xba4597c08ea2f46d50ecea77eccce4a7dce15080",to:"0x86ce99b3bc96054fd4fcc06f36c073bbc8c8fedf",value:web3.toWei(100,"ether")})
+eth.sendTransaction({from:"0xba4597c08ea2f46d50ecea77eccce4a7dce15080",to:"0x1d7a9223345b22dd6ade8f28445a1e58eede2cf5",value:web3.toWei(100,"ether")})
+miner.stop()
+miner.start(1)
+eth.sendTransaction({from:"0xba4597c08ea2f46d50ecea77eccce4a7dce15080",to:"0x1d7a9223345b22dd6ade8f28445a1e58eede2cf5",value:web3.toWei(100,"ether")})

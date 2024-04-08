@@ -30,6 +30,7 @@ contract ZCSMedBlock {
         return string(str);
     }
 
+
     enum Role {
         PATIENT,
         DOCTOR,

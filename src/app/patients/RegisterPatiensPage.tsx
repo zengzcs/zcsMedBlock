@@ -447,94 +447,11 @@ async function handleCommit() {
     alert("提交失败");
   }
 
-  const contract = gethInstance.getContract(
-    [
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: false,
-            internalType: "address",
-            name: "add",
-            type: "address",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-        ],
-        name: "PatientInfoCreate",
-        type: "event",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: false,
-            internalType: "address",
-            name: "add",
-            type: "address",
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-        ],
-        name: "PatientInfoReaded",
-        type: "event",
-      },
-      {
-        inputs: [
-          {
-            internalType: "address",
-            name: "padd",
-            type: "address",
-          },
-        ],
-        name: "PatientInfoRead",
-        outputs: [
-          {
-            internalType: "string",
-            name: "",
-            type: "string",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          {
-            internalType: "string",
-            name: "_pb64i",
-            type: "stCONTRACT_ADDRESSring",
-          },
-        ],
-        name: "addPatientInfo",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "testConnection",
-        outputs: [
-          {
-            internalType: "string",
-            name: "",
-            type: "string",
-          },
-        ],
-        stateMutability: "pure",
-        type: "function",
-      },
-    ],
-    "0x6fc21a244f7f16080d0e98ffac185a7d15865449"
-  );
+  const abi = await gethInstance.getContractAbi().then();
+  const contractAddress = await gethInstance.getContractAddress().then();
+  const contract = gethInstance.getContract(abi, contractAddress);
+  const isAllocateEtherSuccess = await gethInstance.transferFundsToAddress(PatientPersonalInfoData.accountAddress, 10,PatientPersonalInfoData.password);
+  console.log("isAllocateEtherSuccess:"+isAllocateEtherSuccess);
   const base64Encoded = Base64.encode(jsonPayload);
   var CryptoJS = require("crypto-js");
   const encrypted = String(
@@ -548,11 +465,11 @@ async function handleCommit() {
   console.log(encrypted);
   // const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
   // const padd = Web3.utils.toChecksumAddress(address);
-  contract.then((res) => {
+  await contract.then((res) => {
     res.methods
       .addPatientInfo(encrypted)
       .send({
-        from: "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080",
+        from: PatientPersonalInfoData.accountAddress,
         gas: "1000000",
         gasPrice: "10000000000",
       })
