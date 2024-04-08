@@ -25,9 +25,35 @@ export const POST = async (req: NextRequest) => {
         category: json.category,
         medicalInstitutionId: Number.parseInt(json.medicalInstitutionId),
         password: await cryptoService.hashPassword(json.password),
+        accountAddress: json.accountAddress,
       },
     });
-
+    try {
+      const categoryId = await prisma.doctor.findUnique({
+        where: {
+          icNumber: json.icNumber,
+        },
+      });
+      const result = await prisma.users.create({
+        data: {
+          userCategoryId: Number(categoryId?.doctorId),
+          name: json.name,
+          category: "DOCTOR",
+          password: await cryptoService.hashPassword(json.password),
+          accountAddress: json.accountAddress,
+        },
+      });
+      console.log({
+        userCategoryId: Number(categoryId?.userId),
+        name: json.name,
+        category: "DOCTOR",
+        password: await cryptoService.hashPassword(json.password),
+        accountAddress: json.accountAddress,
+      });
+    } catch (e) {
+      console.log("Error when store to users");
+      console.log(e);
+    }
     const stringText = JSON.stringify(json);
 
     return NextResponse.json({ msg: "ok" }, { status: 200 });

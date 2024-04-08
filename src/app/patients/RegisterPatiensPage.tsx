@@ -403,14 +403,6 @@ function BasicGrid() {
   );
 }
 async function handleCommit() {
-  const accountAddress = gethInstance.createNewAccount(
-    document.getElementById("password").value
-  );
-  var add="";
-  await accountAddress.then((res) => {
-    console.log("AA" + res);
-    add=res
-  });
   const PatientPersonalInfoData = {
     name: document.getElementById("name").value,
     icNumber: document.getElementById("icNumber").value,
@@ -429,13 +421,10 @@ async function handleCommit() {
     medications: document.getElementById("medications").value,
     allergies: document.getElementById("allergies").value,
     password: document.getElementById("password").value,
-    accountAddress:add,
   };
-
-  const jsonPayload = JSON.stringify(PatientPersonalInfoData);
-
-  console.log(jsonPayload);
-
+  const jsonPayload = await gethInstance.addPatientInfo(
+    PatientPersonalInfoData
+  );
   const a = await fetch("/api/setPatientsInfo", {
     method: "POST",
     body: jsonPayload,
@@ -446,35 +435,4 @@ async function handleCommit() {
   } else {
     alert("提交失败");
   }
-
-  const abi = await gethInstance.getContractAbi().then();
-  const contractAddress = await gethInstance.getContractAddress().then();
-  const contract = gethInstance.getContract(abi, contractAddress);
-  const isAllocateEtherSuccess = await gethInstance.transferFundsToAddress(PatientPersonalInfoData.accountAddress, 10,PatientPersonalInfoData.password);
-  console.log("isAllocateEtherSuccess:"+isAllocateEtherSuccess);
-  const base64Encoded = Base64.encode(jsonPayload);
-  var CryptoJS = require("crypto-js");
-  const encrypted = String(
-    Base64.encode(
-      String(
-        CryptoJS.AES.encrypt(base64Encoded, PatientPersonalInfoData.password)
-      )
-    )
-  );
-  console.log(base64Encoded);
-  console.log(encrypted);
-  // const address = "0xbA4597c08eA2F46d50Ecea77eccCe4A7dcE15080";
-  // const padd = Web3.utils.toChecksumAddress(address);
-  await contract.then((res) => {
-    res.methods
-      .addPatientInfo(encrypted)
-      .send({
-        from: PatientPersonalInfoData.accountAddress,
-        gas: "1000000",
-        gasPrice: "10000000000",
-      })
-      .then((re) => {
-        console.log(re);
-      });
-  });
 }

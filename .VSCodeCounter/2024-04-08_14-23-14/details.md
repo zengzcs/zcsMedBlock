@@ -1,0 +1,78 @@
+# Details
+
+Date : 2024-04-08 14:23:14
+
+Directory /home/vm/gittest/zcsMedBlock
+
+Total : 63 files,  10619 codes, 155 comments, 343 blanks, all 11117 lines
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| [PostgreSQL.session.sql](/PostgreSQL.session.sql) | SQLite | 0 | 0 | 1 | 1 |
+| [README.md](/README.md) | Markdown | 2 | 0 | 2 | 4 |
+| [db/postgres/_Patients__202404070857.sql](/db/postgres/_Patients__202404070857.sql) | SQLite | 8 | 0 | 1 | 9 |
+| [next-env.d.ts](/next-env.d.ts) | TypeScript | 0 | 4 | 2 | 6 |
+| [next.config copy.mjs](/next.config%20copy.mjs) | JavaScript | 2 | 1 | 2 | 5 |
+| [next.config.mjs](/next.config.mjs) | JavaScript | 2 | 1 | 2 | 5 |
+| [package-lock.json](/package-lock.json) | JSON | 7,073 | 0 | 1 | 7,074 |
+| [package.json](/package.json) | JSON | 49 | 0 | 1 | 50 |
+| [postcss.config.js](/postcss.config.js) | JavaScript | 6 | 0 | 1 | 7 |
+| [prisma/migrations/20240406114616_/migration.sql](/prisma/migrations/20240406114616_/migration.sql) | SQLite | 55 | 12 | 16 | 83 |
+| [prisma/migrations/20240407012447_new/migration.sql](/prisma/migrations/20240407012447_new/migration.sql) | SQLite | 13 | 7 | 8 | 28 |
+| [prisma/migrations/20240407025554_new/migration.sql](/prisma/migrations/20240407025554_new/migration.sql) | SQLite | 4 | 12 | 3 | 19 |
+| [prisma/migrations/20240407031745_new/migration.sql](/prisma/migrations/20240407031745_new/migration.sql) | SQLite | 1 | 1 | 1 | 3 |
+| [prisma/migrations/20240407130330_new/migration.sql](/prisma/migrations/20240407130330_new/migration.sql) | SQLite | 3 | 11 | 3 | 17 |
+| [prisma/schema.prisma](/prisma/schema.prisma) | Prisma | 80 | 4 | 11 | 95 |
+| [public/next.svg](/public/next.svg) | XML | 1 | 0 | 0 | 1 |
+| [public/vercel.svg](/public/vercel.svg) | XML | 1 | 0 | 0 | 1 |
+| [src/app/api/getDoctorInfo/route.ts](/src/app/api/getDoctorInfo/route.ts) | TypeScript | 15 | 1 | 5 | 21 |
+| [src/app/api/getMedicalInstitutionInfo/route.ts](/src/app/api/getMedicalInstitutionInfo/route.ts) | TypeScript | 15 | 1 | 5 | 21 |
+| [src/app/api/getPatientsInfo/route.ts](/src/app/api/getPatientsInfo/route.ts) | TypeScript | 15 | 1 | 5 | 21 |
+| [src/app/api/prismaHandler/route.ts](/src/app/api/prismaHandler/route.ts) | TypeScript | 24 | 0 | 2 | 26 |
+| [src/app/api/setMedicalInstitution/route.ts](/src/app/api/setMedicalInstitution/route.ts) | TypeScript | 33 | 0 | 3 | 36 |
+| [src/app/api/setPatientMedicationRecord/route.ts](/src/app/api/setPatientMedicationRecord/route.ts) | TypeScript | 32 | 0 | 4 | 36 |
+| [src/app/api/setPatientsInfo/route.ts](/src/app/api/setPatientsInfo/route.ts) | TypeScript | 45 | 0 | 5 | 50 |
+| [src/app/api/storageDoctorInfo/route.ts](/src/app/api/storageDoctorInfo/route.ts) | TypeScript | 35 | 0 | 4 | 39 |
+| [src/app/components/LogoutButton.tsx](/src/app/components/LogoutButton.tsx) | TypeScript JSX | 15 | 0 | 2 | 17 |
+| [src/app/components/PageTitle.tsx](/src/app/components/PageTitle.tsx) | TypeScript JSX | 0 | 17 | 3 | 20 |
+| [src/app/components/RegisterRecords.tsx](/src/app/components/RegisterRecords.tsx) | TypeScript JSX | 6 | 0 | 1 | 7 |
+| [src/app/contract/DoctorStorage.sol](/src/app/contract/DoctorStorage.sol) | Solidity | 99 | 1 | 10 | 110 |
+| [src/app/contract/PatientContract.sol](/src/app/contract/PatientContract.sol) | Solidity | 22 | 1 | 3 | 26 |
+| [src/app/contract/PatientStorage.sol](/src/app/contract/PatientStorage.sol) | Solidity | 10 | 1 | 8 | 19 |
+| [src/app/contract/getPatientInfo.sol](/src/app/contract/getPatientInfo.sol) | Solidity | 10 | 1 | 1 | 12 |
+| [src/app/contract/setPatientInfo.sol](/src/app/contract/setPatientInfo.sol) | Solidity | 20 | 1 | 4 | 25 |
+| [src/app/contract/zcsMedBlock.sol](/src/app/contract/zcsMedBlock.sol) | Solidity | 87 | 1 | 16 | 104 |
+| [src/app/doctors/RegisterDoctor.tsx](/src/app/doctors/RegisterDoctor.tsx) | TypeScript JSX | 224 | 3 | 14 | 241 |
+| [src/app/doctors/page.tsx](/src/app/doctors/page.tsx) | TypeScript JSX | 69 | 1 | 10 | 80 |
+| [src/app/globals.css](/src/app/globals.css) | PostCSS | 29 | 0 | 5 | 34 |
+| [src/app/layout.tsx](/src/app/layout.tsx) | TypeScript JSX | 110 | 3 | 4 | 117 |
+| [src/app/lib/HandleCommitToBlockChain.ts](/src/app/lib/HandleCommitToBlockChain.ts) | TypeScript | 53 | 1 | 4 | 58 |
+| [src/app/lib/HandleDoctorInfoCommitToBlockChain.ts](/src/app/lib/HandleDoctorInfoCommitToBlockChain.ts) | TypeScript | 61 | 1 | 6 | 68 |
+| [src/app/lib/crypto.ts](/src/app/lib/crypto.ts) | TypeScript | 15 | 0 | 6 | 21 |
+| [src/app/lib/getGethInstance.ts](/src/app/lib/getGethInstance.ts) | TypeScript | 234 | 0 | 5 | 239 |
+| [src/app/loading.tsx](/src/app/loading.tsx) | TypeScript JSX | 3 | 0 | 1 | 4 |
+| [src/app/medicalInstitution/RegisterMedicalInstitution.tsx](/src/app/medicalInstitution/RegisterMedicalInstitution.tsx) | TypeScript JSX | 401 | 3 | 16 | 420 |
+| [src/app/medicalInstitution/page.tsx](/src/app/medicalInstitution/page.tsx) | TypeScript JSX | 68 | 5 | 8 | 81 |
+| [src/app/not-found.js](/src/app/not-found.js) | JavaScript | 10 | 0 | 2 | 12 |
+| [src/app/page.tsx](/src/app/page.tsx) | TypeScript JSX | 31 | 0 | 5 | 36 |
+| [src/app/patients/PatientAuthorizePage.tsx](/src/app/patients/PatientAuthorizePage.tsx) | TypeScript JSX | 162 | 12 | 5 | 179 |
+| [src/app/patients/PatientInfoDashboard.tsx](/src/app/patients/PatientInfoDashboard.tsx) | TypeScript JSX | 134 | 0 | 8 | 142 |
+| [src/app/patients/RegisterPatiensPage.tsx](/src/app/patients/RegisterPatiensPage.tsx) | TypeScript JSX | 436 | 22 | 23 | 481 |
+| [src/app/patients/loading.tsx](/src/app/patients/loading.tsx) | TypeScript JSX | 3 | 0 | 1 | 4 |
+| [src/app/patients/page.tsx](/src/app/patients/page.tsx) | TypeScript JSX | 79 | 0 | 8 | 87 |
+| [src/app/records/CreateMedicalRecordPage.tsx](/src/app/records/CreateMedicalRecordPage.tsx) | TypeScript JSX | 162 | 12 | 5 | 179 |
+| [src/app/records/page.tsx](/src/app/records/page.tsx) | TypeScript JSX | 73 | 0 | 8 | 81 |
+| [src/app/tests/page.tsx](/src/app/tests/page.tsx) | TypeScript JSX | 50 | 0 | 6 | 56 |
+| [src/app/tests/testPrisma/page.tsx](/src/app/tests/testPrisma/page.tsx) | TypeScript JSX | 7 | 0 | 2 | 9 |
+| [src/app/tests/testWeb3Connection/page.tsx](/src/app/tests/testWeb3Connection/page.tsx) | TypeScript JSX | 104 | 0 | 12 | 116 |
+| [src/app/users/CreateUserPage.tsx](/src/app/users/CreateUserPage.tsx) | TypeScript JSX | 169 | 13 | 27 | 209 |
+| [src/app/users/page.tsx](/src/app/users/page.tsx) | TypeScript JSX | 71 | 0 | 9 | 80 |
+| [tailwind.config.ts](/tailwind.config.ts) | TypeScript | 19 | 0 | 2 | 21 |
+| [test.js](/test.js) | JavaScript | 32 | 0 | 4 | 36 |
+| [test.mjs](/test.mjs) | JavaScript | 1 | 0 | 0 | 1 |
+| [tsconfig.json](/tsconfig.json) | JSON with Comments | 26 | 0 | 1 | 27 |
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

@@ -2,6 +2,7 @@
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
+import gethInstance from "../lib/getGethInstance"
 export default function RegisterDoctor() {
   
   return (
@@ -86,10 +87,10 @@ export const getDoctorInfo = () => {
   };
   return doctorJSON;
 };
-async function handleCommitToDatabase() {
+async function handleCommit(){
   const doctorInfo = getDoctorInfo();
-  const jsonPayload = JSON.stringify(doctorInfo);
-  console.log(jsonPayload);
+  const jsonPayload=await gethInstance.addDoctorInfo(doctorInfo);
+
   const a = await fetch("/api/storageDoctorInfo", {
     method: "POST",
     body: jsonPayload,
@@ -219,7 +220,7 @@ async function BasicGrid() {
             variant="contained"
             endIcon={<SendIcon />}
             size="large"
-            onClick={handleCommitToDatabase}
+            onClick={handleCommit}
           >
             提交到数据库
           </Button>

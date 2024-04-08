@@ -9,6 +9,7 @@ export default function RegisterMedicalInstitution() {
     </div>
   );
 }
+import gethInstance from "../lib/getGethInstance";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -25,7 +26,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-
 
 const hospitalGrades = [
   {
@@ -350,7 +350,6 @@ function BasicGrid() {
               id="email"
               type="email"
               label="电子邮件"
-             
               variant="outlined"
             />
             <TextField
@@ -390,25 +389,20 @@ function BasicGrid() {
   );
 }
 
-
-  
-
-
-
 async function handleCommit() {
   const Data = {
     name: document.getElementById("name")?.value,
     region: document.getElementById("regionsInChina")?.textContent,
     grade: document.getElementById("hospitalGrade")?.textContent,
     email: document.getElementById("email")?.value,
-    password: document.getElementById("password")?.value
-
+    password: document.getElementById("password")?.value,
   };
-  const jsonPayload = JSON.stringify(Data);
-  console.log(jsonPayload);
+
+  const jsonPayload = await gethInstance.addInstitutionInfo(Data);
+
   const a = await fetch("/api/setMedicalInstitution", {
     method: "POST",
-    body: jsonPayload, 
+    body: jsonPayload,
   });
   console.log(a);
   if (a.ok) {

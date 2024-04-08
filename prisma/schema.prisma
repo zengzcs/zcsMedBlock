@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Patients {
-  patientId                  Int                       @id @default(autoincrement())
+  patientId                  Int                       @id @unique @default(autoincrement())
   userId                     Int?
   user                       Users?                    @relation(fields: [userId], references: [userId])
   phoneNumber                String
@@ -55,7 +55,7 @@ model MedicalInstitutions {
   medicalInstitutionId Int      @id @unique @default(autoincrement())
   userId               Int?
   user                 Users?   @relation(fields: [userId], references: [userId])
-  name                 String
+  name                 String   @unique
   region               String
   grade                String
   doctors              Doctor[]
@@ -65,7 +65,7 @@ model MedicalInstitutions {
 }
 
 model Doctor {
-  doctorId                Int                       @id @default(autoincrement())
+  doctorId                Int                       @id @unique @default(autoincrement())
   userId                  Int?
   user                    Users?                    @relation(fields: [userId], references: [userId])
   medicalInstitutionId    Int
@@ -83,11 +83,12 @@ model Doctor {
 }
 
 model Users {
-  userId   Int    @id @default(autoincrement())
-  name     String
-  category String
-  password String
-
+  userId              Int                   @id @unique @default(autoincrement())
+  userCategoryId      Int
+  name                String
+  category            String
+  password            String
+  accountAddress      String
   Patients            Patients[]
   Doctor              Doctor[]
   MedicalInstitutions MedicalInstitutions[]

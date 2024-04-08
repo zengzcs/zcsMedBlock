@@ -35,15 +35,41 @@ export const POST = async (req: NextRequest) => {
         accountAddress: json.accountAddress,
       },
     });
-    console.log(await cryptoService.passwordMatches(json.password, a.password))
-    const stringText = JSON.stringify(json)
-    
+    console.log("storeToPatients");
+    console.log(a);
+    console.log(await cryptoService.passwordMatches(json.password, a.password));
+    const stringText = JSON.stringify(json);
+    console.log("stringText:" + stringText);
 
+    try {
+      const categoryId = await prisma.patients.findUnique({
+        where: {
+          icNumber: json.icNumber,
+        },
+      });
+      const result = await prisma.users.create({
+        data: {
+          userCategoryId: Number(categoryId?.patientId),
+          name: json.name,
+          category: "PATIENT",
+          password: await cryptoService.hashPassword(json.password),
+          accountAddress: json.accountAddress,
+        },
+      });
+      console.log({
+        userCategoryId: Number(categoryId?.userId),
+        name: json.name,
+        category: "PATIENT",
+        password: await cryptoService.hashPassword(json.password),
+        accountAddress: json.accountAddress,
+      });
+    } catch (e) {
+      console.log("Error when store to users");
+      console.log(e);
+    }
     return NextResponse.json({ msg: "ok" }, { status: 200 });
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
     return NextResponse.json({ msg: "error" }, { status: 400 });
   }
-  
 };

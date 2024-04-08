@@ -30,7 +30,6 @@ contract ZCSMedBlock {
         return string(str);
     }
 
-
     enum Role {
         PATIENT,
         DOCTOR,
@@ -57,6 +56,8 @@ contract ZCSMedBlock {
         address[] authorizedDoctors;
     }
     mapping(address => PatientInfo) Patients;
+    mapping(address=>DoctorInfo)Doctors;
+    mapping(address=>MedicalInstitutionInfo)MedicalInstitutions;
     event PatientInfoCreate(address add, uint256 timestamp);
 
     function addPatientInfo(string memory _pb64i) public {
@@ -64,6 +65,23 @@ contract ZCSMedBlock {
         newPi.role = Role.PATIENT;
         newPi.patientBase64Info = _pb64i;
         Patients[msg.sender] = newPi;
+        console.log(msg.sender);
+        emit PatientInfoCreate(msg.sender, block.timestamp);
+    }
+
+    function addDoctorInfo(string memory _pb64i) public {
+        DoctorInfo memory newPi;
+        newPi.role = Role.DOCTOR;
+        newPi.doctorBase64Info = _pb64i;
+        Doctors[msg.sender] = newPi;
+        console.log(msg.sender);
+        emit PatientInfoCreate(msg.sender, block.timestamp);
+    }
+    function addMedicalInstitutionInfo(string memory _pb64i) public {
+        MedicalInstitutionInfo memory newPi;
+        newPi.role = Role.INSTITUTION;
+        newPi.insBase64Info = _pb64i;
+        MedicalInstitutions[msg.sender] = newPi;
         console.log(msg.sender);
         emit PatientInfoCreate(msg.sender, block.timestamp);
     }
@@ -93,6 +111,49 @@ contract ZCSMedBlock {
         } else {
             return (toString(abi.encodePacked(msg.sender)));
         }
+    }
+
+    function patientAuthorizeDoctorInfo(address padd, address dadd)
+        public
+        returns (string memory)
+    {
+        for (uint256 i = 0; i < Patients[padd].authorizedDoctors.length; i++) {
+            if (Patients[padd].authorizedDoctors[i] == dadd) {
+                return ("repete");
+            }
+        }
+        Patients[padd].authorizedDoctors.push(dadd);
+        return ("succeed");
+    }
+
+    function patientRevokeAuthorizationDoctorInfo(address padd, address dadd)
+        public
+        returns (string memory)
+    {
+        for (uint256 i = 0; i < Patients[padd].authorizedDoctors.length; i++) {
+            if (Patients[padd].authorizedDoctors[i] == dadd) {
+                Patients[padd].authorizedDoctors[i] = address(padd);
+                return ("done");
+            }
+        }
+        return ("not found");
+    }
+
+    function patientAuthorizeInstitution(address padd, address iadd)
+        public
+        returns (string memory)
+    {
+        for (
+            uint256 i = 0;
+            i < Patients[padd].authorizedInstitutions.length;
+            i++
+        ) {
+            if (Patients[padd].authorizedInstitutions[i] == iadd) {
+                return ("repete");
+            }
+        }
+        Patients[padd].authorizedInstitutions.push(iadd);
+        return ("succeed");
     }
 
     function testConnection() public pure returns (string memory) {
