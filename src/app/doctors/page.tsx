@@ -1,11 +1,16 @@
-"use client"
-export default function DoctorsPages() {  return (
-  <div>
-    <BasicTabs></BasicTabs>
-  </div>
-);}
+"use client";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { config } from "@/app/api/auth/[...nextauth]/route";
+export default async function DoctorsPages() {
+  const session = await getServerSession(config);
 
-
+  if (!session) return <div>User not logged in</div>;
+  return (
+    <div>
+      <BasicTabs></BasicTabs>
+    </div>
+  );
+}
 
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
@@ -14,6 +19,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 // import RegisterPatient from "@/app/components/RegisterPatiensPage";
 import RegisterDoctor from "./RegisterDoctor";
+import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;

@@ -47,9 +47,14 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-function BasicTabs() {
+import { getSession } from "next-auth/react";
+async function BasicTabs() {
   const [value, setValue] = React.useState(0);
+  const [session, loading] = getSession();
+
+  if (loading) return <div>Loading...</div>;
+
+  if (!session) return <div>User not logged in</div>;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

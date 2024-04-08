@@ -16,8 +16,10 @@ export const config: NextAuthOptions = {
         userid: { label: "Userid", type: "text" },
         password: { label: "Password", type: "password" },
       },
-        async authorize(credentials, req) {
-          console.log(credentials);
+      async authorize(credentials, req) {
+        console.log(credentials);
+
+
         // if (
         //   credentials == null ||
         //   credentials.userid == null ||
@@ -25,21 +27,8 @@ export const config: NextAuthOptions = {
         // ) {
         //   return null;
         // }
-        //   if (
-            
-        //   !(await cryptoService.verifyUsers(
-        //     credentials.userid,
-        //     credentials.password
-        //   ))
-        //   ) {
-        //     console.log(
-        //       await cryptoService.verifyUsers(
-        //         credentials.userid,
-        //         credentials.password
-        //       )
-        //     );
-        //   return null;
-        // }
+        console.log("HHHH")
+        
 
         return { userid: credentials.userid };
       },

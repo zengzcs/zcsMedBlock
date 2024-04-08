@@ -22,6 +22,7 @@ export class CryptoService implements ICryptoService {
       "/api/getUserInfoByUserId?userid=" + userid
     );
     const jsonData = await responseData.json();
+    
     console.log("user json");
     console.log(jsonData);
     return Promise.resolve(

@@ -7,13 +7,14 @@ export const GET = async (req: NextApiRequest) => {
   const prisma = new PrismaClient();
 
   try {
-    const userid=req.query.userid;
+    const userid = req.query.userid;
+    console.log("Query userid:"+userid);
     const a = await prisma.users.findUnique({
       where: {
         userId: Number(userid)
       }
     })
-    // console.log(a)
+    console.log(a)
     return NextResponse.json(a, { status: 200 });
   }
   catch (e) {

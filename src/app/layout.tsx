@@ -37,10 +37,17 @@ const LINKS = [
   { text: "医疗信息记录管理", href: "/records", icon: AssignmentIcon },
   { text: "医生管理", href: "/doctors", icon: MedicationLiquidIcon },
   { text: "病人管理", href: "/patients", icon: AccessibleIcon },
-  { text: "医疗机构管理", href: "/medicalInstitutions", icon: AccountBalanceIcon},
+  {
+    text: "医疗机构管理",
+    href: "/medicalInstitutions",
+    icon: AccountBalanceIcon,
+  },
   // { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
   { text: "系统测试", href: "/tests", icon: BugReportIcon },
 ];
+
+import { SessionProvider } from "next-auth/react";
+import { AppProps } from "next/app";
 
 export default function RootLayout({
   children,
@@ -55,7 +62,7 @@ export default function RootLayout({
           sx={{
             flexGrow: 1,
             bgcolor: "background.default",
-            
+
             p: 3,
           }}
         >
