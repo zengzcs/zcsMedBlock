@@ -1,5 +1,5 @@
 "use client";
-
+// import { useSession } from "next-auth/react";
 import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
@@ -23,10 +23,11 @@ import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Button, DialogContent } from "@mui/material";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import cryptoService from "./lib/crypto";
 
-export default function Home() {
+export default async function Home() {
+  
   return (
     <div>
       <Button

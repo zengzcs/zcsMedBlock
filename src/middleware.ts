@@ -7,6 +7,7 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * https://nextjs.org/docs/pages/building-your-application/routing/middleware
      */
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],

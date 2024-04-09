@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/tests/testPrisma/a.js", "src/pages/api/admin/route.ts", "test.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/tests/testPrisma/a.js", "src/pages/api/admin/route.ts", "test.js", "src/app/pages/_app.tsx"],
   "exclude": ["node_modules"]
 }

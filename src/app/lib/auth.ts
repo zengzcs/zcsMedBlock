@@ -41,15 +41,19 @@ export const config: NextAuthOptions = {
             }
           );
 
-          const result = await resultResponse;
+            const result = await resultResponse;
+            console.log("result.body")
           console.log(result.body);
           const reader = result.body.getReader();
           const { done, value } = await reader.read();
           const deciphertext = new TextDecoder().decode(value);
+          console.log("deciphertext");
             console.log(deciphertext);
             const json = JSON.parse(deciphertext);
+            console.log("json");
+            console.log(json);
           if ("name" in json) {
-            return Promise.resolve(result);
+            return Promise.resolve({name:json.userId});
           } else {
             return null;
           }

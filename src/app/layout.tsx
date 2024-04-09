@@ -1,3 +1,4 @@
+"use client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -25,10 +26,7 @@ import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import BugReportIcon from "@mui/icons-material/BugReport";
-export const metadata = {
-  title: "Next.js MUI Starter Template",
-  description: "Next.js App Router + Material UI v5 Starter Template",
-};
+
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const DRAWER_WIDTH = 240;
 
@@ -47,27 +45,16 @@ const LINKS = [
 ];
 
 import { SessionProvider } from "next-auth/react";
-import { AppProps } from "next/app";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+type Props = {
+  children?: React.ReactNode;
+};
+
+export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
+    <html>
       <body>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            bgcolor: "background.default",
-
-            p: 3,
-          }}
-        >
-          {children}
-        </Box>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
