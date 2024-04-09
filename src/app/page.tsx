@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import * as React from "react";
@@ -18,8 +18,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import HomeIcon from "@mui/icons-material/Home";
 import UsersIcon from "@mui/icons-material/People";
 
-import { LogoutButton } from "@/app/components/LogoutButton"
-
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
@@ -29,15 +27,20 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import cryptoService from "./lib/crypto";
 
 export default function Home() {
-
   return (
     <div>
-      <Button onClick={() => {
-        test()
-      }}>
+      <Button
+        onClick={() => {
+          test();
+        }}
+      >
         测试
-      </Button>  
-      <LogoutButton></LogoutButton>
+      </Button>
+      <Button
+        onClick={() => {
+          signOut();
+        }}
+      >登出</Button>
     </div>
   );
 }
