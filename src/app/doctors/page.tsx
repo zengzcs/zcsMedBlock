@@ -2,9 +2,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { config } from "@/app/api/auth/[...nextauth]/route";
 export default async function DoctorsPages() {
-  const session = await getServerSession(config);
 
-  if (!session) return <div>User not logged in</div>;
   return (
     <div>
       <BasicTabs></BasicTabs>
