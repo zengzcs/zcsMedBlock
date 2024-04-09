@@ -9,7 +9,7 @@ export default function RegisterMedicalInstitution() {
     </div>
   );
 }
-import gethInstance from "../lib/getGethInstance";
+import gethInstance from "@/app/lib/getGethInstance";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";

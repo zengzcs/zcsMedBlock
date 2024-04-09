@@ -27,7 +27,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-import gethInstance from "../lib/getGethInstance";
+import gethInstance from "@/app/lib/getGethInstance";";
 
 const sexies = [
   {

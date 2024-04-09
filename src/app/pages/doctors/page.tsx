@@ -1,6 +1,6 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { config } from "@/app/api/auth/[...nextauth]/route";
+
 export default async function DoctorsPages() {
 
   return (

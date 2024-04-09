@@ -2,7 +2,7 @@
 import Web3 from "web3";
 import Alert from "@mui/material/Alert";
 import SendIcon from "@mui/icons-material/Send";
-import gethInstance from "../lib/getGethInstance"
+import gethInstance from "@/app/lib/getGethInstance"
 export default function RegisterDoctor() {
   
   return (
@@ -21,8 +21,7 @@ import Grid from "@mui/material/Grid";
 
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Button, MenuItem } from "@mui/material";
-import { Prisma } from "@prisma/client";
-import HandleDoctorInfoCommitToBlockChain from "../lib/HandleDoctorInfoCommitToBlockChain";
+
 
 const sexies = [
   {

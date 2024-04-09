@@ -16,28 +16,50 @@ export const config: NextAuthOptions = {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials, req) {
+        console.log("credentials:");
+        console.log(credentials);
         if (
           credentials == null ||
           credentials.username == null ||
           credentials.password == null
-        )
+        ) {
           return null;
+        }
+        //   return await Promise.resolve(JSON.parse(JSON.stringify("{\"userid\":1}")));
+        try {
+          console.log("starting fetch");
+          const resultResponse = await fetch(
+            "http://localhost:3000/api/verifyUser",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                userid: credentials.username,
+                password: credentials.password,
+              }),
+            }
+          );
 
-          return Promise.resolve({ id:credentials.username });
+            const result = await resultResponse;
+            console.log(result.body);
+             const reader = result.body.getReader();
+             const { done, value } = await reader.read();
+             const deciphertext = new TextDecoder().decode(value);
+            console.log(deciphertext);
+          if ("name" in result) {
+            return Promise.resolve(result);
+          } else {
+            return null;
+          }
+        } catch (e) {
+          console.log("ERROR in Fetch");
+          console.log(e);
+          return null;
+        }
       },
     }),
   ],
   session: { strategy: "jwt" },
 };
 const handler = NextAuth(config);
-
-export { handler as GET, handler as POST };
-export function auth(
-  ...args:
-    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
-    | [NextApiRequest, NextApiResponse]
-    | []
-) {
-  return getServerSession(...args, config);
-}
