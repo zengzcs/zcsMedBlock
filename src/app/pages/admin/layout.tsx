@@ -33,13 +33,25 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
-  { text: "主页", href: "/", icon: HomeIcon },
-  { text: "医疗信息记录管理", href: "/records", icon: AssignmentIcon },
-  { text: "医生管理", href: "/doctors", icon: MedicationLiquidIcon },
-  { text: "病人管理", href: "/patients", icon: AccessibleIcon },
-  { text: "医疗机构管理", href: "/medicalInstitutions", icon: AccountBalanceIcon},
+  { text: "主页", href: "/pages/admin", icon: HomeIcon },
+  {
+    text: "医疗信息记录管理",
+    href: "/pages/admin/records",
+    icon: AssignmentIcon,
+  },
+  {
+    text: "医生管理",
+    href: "/pages/admin/doctors",
+    icon: MedicationLiquidIcon,
+  },
+  { text: "病人管理", href: "/pages/admin/patients", icon: AccessibleIcon },
+  {
+    text: "医疗机构管理",
+    href: "/pages/admin/medicalInstitutions",
+    icon: AccountBalanceIcon,
+  },
   // { text: "用户管理", href: "/users", icon: SupervisedUserCircleIcon },
-  { text: "系统测试", href: "/tests", icon: BugReportIcon },
+  { text: "系统测试", href: "/pages/admin/tests", icon: BugReportIcon },
 ];
 
 export default function RootLayout({

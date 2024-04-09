@@ -30,8 +30,8 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json(a, { status: 200 });
       }
       return NextResponse.json(
-        { msg: "Password Not Matches" },
-        { status: 400 }
+        { msg: "Password Not Matches" ,data:a},
+        { status: 200 }
       );
     }
   } catch (e) {

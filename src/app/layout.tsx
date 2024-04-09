@@ -1,7 +1,7 @@
 "use client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+// import "./globals.css";
 import * as React from "react";
 import Link from "next/link";
 import AppBar from "@mui/material/AppBar";
