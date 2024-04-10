@@ -30,6 +30,8 @@ export const metadata = {
   description: "Author:曾朝 github: https://github.com/zengzcs/zcsMedBlock.git",
 };
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { getSession, signOut } from "next-auth/react";
+import { Router } from "next/router";
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
@@ -54,11 +56,14 @@ const LINKS = [
   { text: "系统测试", href: "/pages/admin/tests", icon: BugReportIcon },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+  }) {
+  const session = await getSession();
+  console.log(session);
+  if(session?.user?.email!="ADMIN"){signOut();}
   return (
     <html lang="en">
       <body>

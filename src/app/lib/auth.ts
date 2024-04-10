@@ -1,12 +1,7 @@
-import type {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from "next";
 import type { NextAuthOptions } from "next-auth";
-import NextAuth, { getServerSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import cryptoService from "../lib/crypto";
+import { useRouter } from "next/navigation";
 
 export const config: NextAuthOptions = {
   providers: [
@@ -55,6 +50,7 @@ export const config: NextAuthOptions = {
           if ("name" in json) {
             return Promise.resolve({
               name: json.userId,
+              email: json.category,
             });
           } else {
             return null;
@@ -68,5 +64,15 @@ export const config: NextAuthOptions = {
     }),
   ],
   session: { strategy: "jwt" },
+  callbacks: {
+    // async signIn({ user, account, profile, email, credentials }) {
+    //   return "/";
+    // },
+    async redirect({ url, baseUrl }) {
+      return "/";
+    },
+  },
 };
 const handler = NextAuth(config);
+
+

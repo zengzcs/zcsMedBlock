@@ -33,25 +33,15 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
-  { text: "主页", href: "/pages/admin", icon: HomeIcon },
+  { text: "主页", href: "/pages/patient", icon: HomeIcon },
   {
-    text: "医疗信息记录管理",
-    href: "/pages/admin/records",
+    text: "医疗信息记录查看",
+    href: "/pages/patient/record",
     icon: AssignmentIcon,
   },
-  {
-    text: "医生管理",
-    href: "/pages/admin/doctors",
-    icon: MedicationLiquidIcon,
-  },
-  { text: "病人管理", href: "/pages/admin/patients", icon: AccessibleIcon },
-  {
-    text: "医疗机构管理",
-    href: "/pages/admin/medicalInstitutions",
-    icon: AccountBalanceIcon,
-  },
-  { text: "账户信息管理平台", href: "/pages/admin/users", icon: SupervisedUserCircleIcon },
-  { text: "系统测试", href: "/pages/admin/tests", icon: BugReportIcon },
+
+  { text: "个人信息", href: "/pages/patient/info", icon: AccessibleIcon },
+  { text: "授权管理", href: "/pages/patient/authorize", icon: AccessibleIcon },
 ];
 
 export default function RootLayout({
@@ -68,7 +58,7 @@ export default function RootLayout({
               sx={{ color: "#444", mr: 2, transform: "translateY(-2px)" }}
             />
             <Typography variant="h6" color="text.primary">
-              基于区块链的医疗信息管理系统 管理员平台
+              基于区块链的医疗信息管理系统 病人平台
             </Typography>
             <Box
               sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}

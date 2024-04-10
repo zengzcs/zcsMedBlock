@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HomeIcon from "@mui/icons-material/Home";
 import UsersIcon from "@mui/icons-material/People";
-import { useRouter } from "next/router";
+
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
@@ -26,7 +26,7 @@ import { Button, DialogContent } from "@mui/material";
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import cryptoService from "./lib/crypto";
 import styled from "styled-components";
-
+import { useRouter } from "next/navigation";
 const CenteredComponent = styled.div`
   display: flex;
   justify-content: center; // 水平居中
@@ -46,6 +46,7 @@ export function LinearIndeterminate() {
 }
 
 export default async function Home() {
+  const router = useRouter();
   useEffect(() => {
     const timer = setTimeout(async () => {
       const session = await getSession();
@@ -79,10 +80,10 @@ export default async function Home() {
         console.log(data);
 
         if (data.category == "ADMIN") {
-          window.location.href = "/pages/admin  ";
+          router.push("/pages/admin");
         }
         if (data.category == "PATIENT") {
-          window.location.href = "/pages/patient  ";
+          router.push("/pages/patient");
         }
       }
     }, 2000);
