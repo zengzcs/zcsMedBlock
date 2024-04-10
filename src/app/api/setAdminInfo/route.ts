@@ -19,13 +19,13 @@ export const POST = async (req: NextRequest) => {
       data: {
         name: json.name,
         password: await cryptoService.hashPassword(json.password),
-        
+        accountAddress:json.accountAddress,
       },
     });
     try {
       const categoryId = await prisma.admins.findUnique({
         where: {
-          adminId:json.adminId,
+          name:json.name,
         },
       });
       const result = await prisma.users.create({
@@ -33,10 +33,20 @@ export const POST = async (req: NextRequest) => {
           userCategoryId: Number(categoryId?.adminId),
           name: json.name,
           category: "ADMIN",
-          password: await cryptoService.hashPassword(json.password),
-          accountAddress: json.accountAddress,
+          password: categoryId.password,
+          accountAddress: categoryId.accountAddress,
         },
       });
+      await prisma.admins.update({
+        where: {
+          name:json.name,
+        },
+        data: {
+          userId: result.userId,
+        }
+      })
+        
+      console.log("create User")
       console.log({
         userCategoryId: Number(categoryId?.userId),
         name: json.name,

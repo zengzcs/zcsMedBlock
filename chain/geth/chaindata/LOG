@@ -470,3 +470,14 @@
 09:17:17.733423 table@remove removed @99
 09:17:17.733804 table@remove removed @100
 09:17:17.733893 table@remove removed @101
+=============== Apr 10, 2024 (CST) ===============
+10:50:17.257099 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+10:50:17.257497 version@stat F·[0 4] S·8MiB[0B 8MiB] Sc·[0.00 0.08]
+10:50:17.257524 db@open opening
+10:50:17.257567 journal@recovery F·1
+10:50:17.257909 journal@recovery recovering @112
+10:50:17.263582 memdb@flush created L0@118 N·19 S·439B "unc..own,v210795":"unc..own,v210777"
+10:50:17.263843 version@stat F·[1 4] S·8MiB[439B 8MiB] Sc·[0.25 0.08]
+10:50:17.295020 db@janitor F·8 G·1
+10:50:17.295120 db@janitor removing table-111
+10:50:17.295816 db@open done T·38.281816ms

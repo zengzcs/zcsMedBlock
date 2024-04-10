@@ -96,9 +96,10 @@ model Users {
 }
 
 model Admins {
-  adminId Int    @id @unique @default(autoincrement())
-  user    Users? @relation(fields: [userId], references: [userId])
-  userId  Int?
-  name String
-  password String
+  adminId        Int    @id @unique @default(autoincrement())
+  user           Users? @relation(fields: [userId], references: [userId])
+  userId         Int?
+  name           String @unique
+  password       String
+  accountAddress String
 }

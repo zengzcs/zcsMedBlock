@@ -13,12 +13,13 @@ export interface web3Interface {
     password: string
   ): Promise<any>;
   getBaseAccountAddress(): Promise<any>;
-    createAccountBy10EhtersAndGetAddAndCrypto(obj: Object): Promise<any>;
-    addPatientInfo(obj: Object): Promise<any>;
-    addDoctorInfo(obj: Object): Promise<any>;
-    addInstitutionInfo(obj: Object): Promise<any>;
+  createAccountBy10EhtersAndGetAddAndCrypto(obj: Object): Promise<any>;
+  addPatientInfo(obj: Object): Promise<any>;
+  addDoctorInfo(obj: Object): Promise<any>;
+  addInstitutionInfo(obj: Object): Promise<any>;
   authorizedPatientInfoToDoctor(obj: Object): Promise<any>;
   addAdminInfo(obj: Object): Promise<any>;
+  getAccountBalance(address: string): Promise<any>;
 }
 export class Web3Service implements web3Interface {
   private web3: Web3;
@@ -26,7 +27,16 @@ export class Web3Service implements web3Interface {
     this.web3 = new Web3(
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
-  } 
+  }
+  authorizedPatientInfoToDoctor(obj: Object): Promise<any> {
+    throw new Error("Method not implemented.");
+  }
+  async getAccountBalance(address: string): Promise<any> {
+    const balance=await this.web3.eth.getBalance(address)
+    const balanceInEther = this.web3.utils.fromWei(balance, "ether");
+    return Promise.resolve(balanceInEther);
+
+  }
   async addAdminInfo(obj: Object): Promise<any> {
     const [jsonPayload, encrypted] =
       await this.createAccountBy10EhtersAndGetAddAndCrypto(JSON.stringify(obj));
@@ -44,64 +54,60 @@ export class Web3Service implements web3Interface {
     });
     return Promise.resolve(jsonPayload);
   }
-    async addInstitutionInfo(obj: Object): Promise<any> {
-        const [jsonPayload, encrypted] =
-          await this.createAccountBy10EhtersAndGetAddAndCrypto(
-            JSON.stringify(obj)
-          );
-        this.getContract().then((res) => {
-          res.methods
-            .addMedicalInstitutionInfo(encrypted)
-            .send({
-              from: JSON.parse(jsonPayload).accountAddress,
-              gas: "1000000",
-              gasPrice: "10000000000",
-            })
-            .then((re) => {
-              console.log(re);
-            });
+  async addInstitutionInfo(obj: Object): Promise<any> {
+    const [jsonPayload, encrypted] =
+      await this.createAccountBy10EhtersAndGetAddAndCrypto(JSON.stringify(obj));
+    this.getContract().then((res) => {
+      res.methods
+        .addMedicalInstitutionInfo(encrypted)
+        .send({
+          from: JSON.parse(jsonPayload).accountAddress,
+          gas: "1000000",
+          gasPrice: "10000000000",
+        })
+        .then((re) => {
+          console.log(re);
         });
-        return Promise.resolve(jsonPayload);
-    }
-    async addDoctorInfo(obj: Object): Promise<any> {
-        const [jsonPayload, encrypted] =
-          await this.createAccountBy10EhtersAndGetAddAndCrypto(
-            JSON.stringify(obj)
-          );
-        this.getContract().then((res) => {
-          res.methods
-            .addDoctorInfo(encrypted)
-            .send({
-              from: JSON.parse(jsonPayload).accountAddress,
-              gas: "1000000",
-              gasPrice: "10000000000",
-            })
-            .then((re) => {
-              console.log(re);
-            });
+    });
+    return Promise.resolve(jsonPayload);
+  }
+  async addDoctorInfo(obj: Object): Promise<any> {
+    const [jsonPayload, encrypted] =
+      await this.createAccountBy10EhtersAndGetAddAndCrypto(JSON.stringify(obj));
+    this.getContract().then((res) => {
+      res.methods
+        .addDoctorInfo(encrypted)
+        .send({
+          from: JSON.parse(jsonPayload).accountAddress,
+          gas: "1000000",
+          gasPrice: "10000000000",
+        })
+        .then((re) => {
+          console.log(re);
         });
-        return Promise.resolve(jsonPayload);
-    }
-    async addPatientInfo(obj: Object): Promise<string> {
-        const [jsonPayload, encrypted] =
-          await this.createAccountBy10EhtersAndGetAddAndCrypto(
-            JSON.stringify(obj)
-          );
-        this.getContract().then((res) => {
-          res.methods
-            .addPatientInfo(encrypted)
-            .send({
-              from: JSON.parse(jsonPayload).accountAddress,
-              gas: "1000000",
-              gasPrice: "10000000000",
-            })
-            .then((re) => {
-              console.log(re);
-            });
+    });
+    return Promise.resolve(jsonPayload);
+  }
+  async addPatientInfo(obj: Object): Promise<string> {
+    const [jsonPayload, encrypted] =
+      await this.createAccountBy10EhtersAndGetAddAndCrypto(JSON.stringify(obj));
+    this.getContract().then((res) => {
+      res.methods
+        .addPatientInfo(encrypted)
+        .send({
+          from: JSON.parse(jsonPayload).accountAddress,
+          gas: "1000000",
+          gasPrice: "10000000000",
+        })
+        .then((re) => {
+          console.log(re);
         });
-        return Promise.resolve(jsonPayload);
-    }
-  async createAccountBy10EhtersAndGetAddAndCrypto(info: string): Promise<[string,string]> {
+    });
+    return Promise.resolve(jsonPayload);
+  }
+  async createAccountBy10EhtersAndGetAddAndCrypto(
+    info: string
+  ): Promise<[string, string]> {
     try {
       const obj = JSON.parse(info);
       if (obj.password === undefined || obj.password === "") {
@@ -123,7 +129,7 @@ export class Web3Service implements web3Interface {
 
       const abi = await this.getContractAbi().then();
       const contractAddress = await this.getContractAddress().then();
-      const contract = this.getContract(abi, contractAddress);
+      const contract = this.getContract();
       const isAllocateEtherSuccess = await this.transferFundsToAddress(
         obj.accountAddress,
         10,
@@ -148,7 +154,10 @@ export class Web3Service implements web3Interface {
     return Promise.resolve(baseAddress);
   }
   async getContract(): Promise<any> {
-    const contract = new this.web3.eth.Contract(await this.getContractAbi(), await this.getContractAddress());
+    const contract = new this.web3.eth.Contract(
+      await this.getContractAbi(),
+      await this.getContractAddress()
+    );
     return Promise.resolve(contract);
   }
   getWeb3(): Promise<any> {
@@ -206,6 +215,19 @@ export class Web3Service implements web3Interface {
   }
   getContractAbi(): Promise<any> {
     const abi = [
+      {
+        inputs: [
+          {
+            internalType: "string",
+            name: "_pb64i",
+            type: "string",
+          },
+        ],
+        name: "addAdminInfo",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
       {
         inputs: [
           {
@@ -467,7 +489,7 @@ export class Web3Service implements web3Interface {
     return Promise.resolve(abi);
   }
   getContractAddress(): Promise<any> {
-    const address = "0x4D5c53F2295F0bAD9225ED7ff11D9908891956d0";
+    const address = "0x6b2F1252aB0E82A4f3804450159a9adF454f0004";
     return Promise.resolve(address);
   }
 }

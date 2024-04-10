@@ -71,7 +71,7 @@ function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IconLabelTabs></IconLabelTabs>
+        <RegisterAdmin></RegisterAdmin>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
@@ -80,7 +80,7 @@ function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <div>
-          <RegisterAdmin></RegisterAdmin>
+          <IconLabelTabs></IconLabelTabs>
         </div>
       </CustomTabPanel>
     </Box>

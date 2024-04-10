@@ -43,6 +43,14 @@ export const POST = async (req: NextRequest) => {
           accountAddress: json.accountAddress,
         },
       });
+      await prisma.doctor.update({
+        where: {
+          icNumber: json.icNumber,
+        },
+        data: {
+          userId: result.userId,
+        },
+      });
       console.log({
         userCategoryId: Number(categoryId?.userId),
         name: json.name,

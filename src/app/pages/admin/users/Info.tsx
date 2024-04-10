@@ -8,6 +8,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import EnhancedTable from "@/app/components/Table";
+import AdminTable from "./tables/AdminTable"
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -59,7 +60,7 @@ export default function VerticalTabs() {
     >
       <Tabs
         orientation="vertical"
-        variant="scrollable"
+        // variant="scrollable"
               value={value}
               centered
               
@@ -74,7 +75,7 @@ export default function VerticalTabs() {
 
       </Tabs>
       <TabPanel value={value} index={0}>
-        <EnhancedTable></EnhancedTable>
+        <AdminTable></AdminTable>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

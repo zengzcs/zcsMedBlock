@@ -56,6 +56,15 @@ export const POST = async (req: NextRequest) => {
           accountAddress: json.accountAddress,
         },
       });
+
+      await prisma.patients.update({
+        where: {
+          icNumber: json.icNumber,
+        },
+        data: {
+          userId: result.userId,
+        },
+      });
       console.log({
         userCategoryId: Number(categoryId?.userId),
         name: json.name,
