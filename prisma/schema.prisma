@@ -92,4 +92,13 @@ model Users {
   Patients            Patients[]
   Doctor              Doctor[]
   MedicalInstitutions MedicalInstitutions[]
+  Admins              Admins[]
+}
+
+model Admins {
+  adminId Int    @id @unique @default(autoincrement())
+  user    Users? @relation(fields: [userId], references: [userId])
+  userId  Int?
+  name String
+  password String
 }

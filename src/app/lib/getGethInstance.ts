@@ -17,7 +17,8 @@ export interface web3Interface {
     addPatientInfo(obj: Object): Promise<any>;
     addDoctorInfo(obj: Object): Promise<any>;
     addInstitutionInfo(obj: Object): Promise<any>;
-    authorizedPatientInfoToDoctor(obj: Object): Promise<any>;
+  authorizedPatientInfoToDoctor(obj: Object): Promise<any>;
+  addAdminInfo(obj: Object): Promise<any>;
 }
 export class Web3Service implements web3Interface {
   private web3: Web3;
@@ -25,7 +26,24 @@ export class Web3Service implements web3Interface {
     this.web3 = new Web3(
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
-    } 
+  } 
+  async addAdminInfo(obj: Object): Promise<any> {
+    const [jsonPayload, encrypted] =
+      await this.createAccountBy10EhtersAndGetAddAndCrypto(JSON.stringify(obj));
+    this.getContract().then((res) => {
+      res.methods
+        .addAdminInfo(encrypted)
+        .send({
+          from: JSON.parse(jsonPayload).accountAddress,
+          gas: "1000000",
+          gasPrice: "10000000000",
+        })
+        .then((re) => {
+          console.log(re);
+        });
+    });
+    return Promise.resolve(jsonPayload);
+  }
     async addInstitutionInfo(obj: Object): Promise<any> {
         const [jsonPayload, encrypted] =
           await this.createAccountBy10EhtersAndGetAddAndCrypto(

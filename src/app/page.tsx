@@ -81,6 +81,9 @@ export default async function Home() {
         if (data.category == "ADMIN") {
           window.location.href = "/pages/admin  ";
         }
+        if (data.category == "PATIENT") {
+          window.location.href = "/pages/patient  ";
+        }
       }
     }, 2000);
     return () => {

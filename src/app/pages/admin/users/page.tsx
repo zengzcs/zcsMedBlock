@@ -14,6 +14,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import CreateMedicalRecordPage from "./CreateUserPage";
+import EnhancedTable from "@/app/components/Table";
+import IconLabelTabs from "./Info";
+import RegisterAdmin from "./CreateAdminPage";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -55,23 +58,29 @@ function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", height: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="用户信息概览" {...a11yProps(0)} />
+          <Tab label="账户信息概览" {...a11yProps(0)} />
           <Tab label="注册用户" {...a11yProps(1)} />
+          <Tab label="注册管理员账户" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <IconLabelTabs></IconLabelTabs>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
           <CreateMedicalRecordPage></CreateMedicalRecordPage>
+        </div>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <div>
+          <RegisterAdmin></RegisterAdmin>
         </div>
       </CustomTabPanel>
     </Box>

@@ -15,27 +15,24 @@ export const POST = async (req: NextRequest) => {
   console.log("json");
   console.log(json);
   try {
-    const a = await prisma.medicalInstitutions.create({
+    const a = await prisma.admins.create({
       data: {
         name: json.name,
-        region: json.region,
-        grade: json.grade,
         password: await cryptoService.hashPassword(json.password),
-        email: json.email,
-        accountAddress: json.accountAddress,
+        
       },
     });
     try {
-      const categoryId = await prisma.medicalInstitutions.findUnique({
+      const categoryId = await prisma.admins.findUnique({
         where: {
-          name: json.name,
+          adminId:json.adminId,
         },
       });
       const result = await prisma.users.create({
         data: {
-          userCategoryId: Number(categoryId?.medicalInstitutionId),
+          userCategoryId: Number(categoryId?.adminId),
           name: json.name,
-          category: "INSTITUTION",
+          category: "ADMIN",
           password: await cryptoService.hashPassword(json.password),
           accountAddress: json.accountAddress,
         },
@@ -43,7 +40,7 @@ export const POST = async (req: NextRequest) => {
       console.log({
         userCategoryId: Number(categoryId?.userId),
         name: json.name,
-        category: "INSTITUTION",
+        category: "ADMIN",
         password: await cryptoService.hashPassword(json.password),
         accountAddress: json.accountAddress,
       });

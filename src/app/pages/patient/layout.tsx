@@ -50,7 +50,7 @@ const LINKS = [
     href: "/pages/admin/medicalInstitutions",
     icon: AccountBalanceIcon,
   },
-  { text: "账户信息管理平台", href: "/pages/admin/users", icon: SupervisedUserCircleIcon },
+  { text: "用户管理", href: "/pages/admin/users", icon: SupervisedUserCircleIcon },
   { text: "系统测试", href: "/pages/admin/tests", icon: BugReportIcon },
 ];
 
@@ -68,7 +68,7 @@ export default function RootLayout({
               sx={{ color: "#444", mr: 2, transform: "translateY(-2px)" }}
             />
             <Typography variant="h6" color="text.primary">
-              基于区块链的医疗信息管理系统 管理员平台
+              基于区块链的医疗信息管理系统 病人平台
             </Typography>
             <Box
               sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
