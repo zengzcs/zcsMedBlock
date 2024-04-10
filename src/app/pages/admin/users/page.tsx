@@ -65,9 +65,9 @@ function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="账户信息概览" {...a11yProps(0)} />
+          <Tab label="注册管理员账户" {...a11yProps(0)} />
           <Tab label="注册用户" {...a11yProps(1)} />
-          <Tab label="注册管理员账户" {...a11yProps(2)} />
+          <Tab label="账户信息概览" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

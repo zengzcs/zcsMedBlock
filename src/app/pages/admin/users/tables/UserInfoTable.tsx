@@ -23,33 +23,39 @@ import { visuallyHidden } from "@mui/utils";
 import gethInstance from "@/app/lib/getGethInstance";
 interface Data {
   id: number;
-  adminId: number;
+  userCategoryId: number;
   name: string;
+  category: string;
   accountAddress: string;
   accountBalance: number;
 }
 function createData(
   id: number,
-  adminId: number,
+  userCategoryId: number,
   name: string,
+  category: string,
+
   accountAddress: string,
   accountBalance: number
 ): Data {
   return {
     id,
-    adminId,
+    userCategoryId,
     name,
+    category,
+
     accountAddress,
     accountBalance,
   };
 }
 async function getRows() {
-  const response = await fetch("/api/getAdminInfo", { method: "GET" });
+  const response = await fetch("/api/getUserInfo", { method: "GET" });
   const infoData = await response.json();
   var rows: {
     id: number;
-    adminId: number;
+    userCategoryId: number;
     name: string;
+    category: string;
     accountAddress: string;
     accountBalance: number;
   }[] = [];
@@ -58,8 +64,9 @@ async function getRows() {
       rows.push(
         createData(
           a.userId,
-          a.adminId,
+          a.userCategoryId,
           a.name,
+          a.category,
           a.accountAddress,
           i
         )
@@ -135,10 +142,10 @@ const headCells: readonly HeadCell[] = [
     label: "UserId",
   },
   {
-    id: "adminId",
+    id: "userCategoryId",
     numeric: true,
     disablePadding: false,
-    label: "AdminId",
+    label: "UserCategoryId",
   },
   {
     id: "name",
@@ -146,6 +153,13 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: "Name",
   },
+  {
+    id: "category",
+    numeric: false,
+    disablePadding: false,
+    label: "Category",
+  },
+
   {
     id: "accountAddress",
     numeric: false,
@@ -263,7 +277,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          管理员账户
+          平台账户管理
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -282,7 +296,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-export default function AdminTable() {
+export default function UserTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -359,7 +373,7 @@ export default function AdminTable() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2,maxWidth:1400 }}>
+      <Paper sx={{ width: "100%", mb: 2 ,maxWidth:1200}}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -392,10 +406,7 @@ export default function AdminTable() {
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell
-                
-                      padding="checkbox"
-                    >
+                    <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -405,7 +416,7 @@ export default function AdminTable() {
                       />
                     </TableCell>
                     <TableCell align="right">{row.id}</TableCell>
-                    <TableCell align="right">{row.adminId}</TableCell>
+                    <TableCell align="right">{row.userCategoryId}</TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
@@ -414,6 +425,9 @@ export default function AdminTable() {
                     >
                       {row.name}
                     </TableCell>
+
+                    <TableCell align="right">{row.category}</TableCell>
+
                     <TableCell align="right">{row.accountAddress}</TableCell>
                     <TableCell align="right">{row.accountBalance}</TableCell>
                   </TableRow>
@@ -443,11 +457,8 @@ export default function AdminTable() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label="紧凑模式"
       />
     </Box>
   );
 }
-
-
-

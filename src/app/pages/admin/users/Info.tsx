@@ -3,12 +3,15 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import EnhancedTable from "@/app/components/Table";
-import AdminTable from "./tables/AdminTable"
+import AdminTable from "./tables/AdminTable";
+import UserTable from "./tables/UserInfoTable";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -27,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 2}}>
+        <Box sx={{ p: 2 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -52,6 +55,7 @@ export default function VerticalTabs() {
   return (
     <Box
       sx={{
+        width: "100%",
         flexGrow: 1,
         bgcolor: "background.paper",
         display: "flex",
@@ -60,33 +64,48 @@ export default function VerticalTabs() {
     >
       <Tabs
         orientation="vertical"
-        // variant="scrollable"
-              value={value}
-              centered
-              
+        variant="scrollable"
+        value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
         sx={{ borderRight: 0, borderColor: "divider" }}
       >
-              <Tab icon={ <AdminPanelSettingsIcon></AdminPanelSettingsIcon>} label="管理员账户" {...a11yProps(0)} />
-        <Tab icon={<AccessibleIcon></AccessibleIcon>} label="病人账户" {...a11yProps(1)} />
-              <Tab icon={ <MedicationLiquidIcon></MedicationLiquidIcon>} label="医生账户" {...a11yProps(2)} />
-        <Tab icon={<AccountBalanceIcon></AccountBalanceIcon>} label="医疗机构账户" {...a11yProps(3)} />
-
+        <Tab
+          icon={<SupervisedUserCircleIcon></SupervisedUserCircleIcon>}
+          label="平台账户管理"
+          {...a11yProps(0)}
+        />
+        <Tab
+          icon={<AdminPanelSettingsIcon></AdminPanelSettingsIcon>}
+          label="管理员账户管理"
+          {...a11yProps(1)}
+        />
+        <Tab
+          icon={<AccessibleIcon></AccessibleIcon>}
+          label="病人账户管理"
+          {...a11yProps(2)}
+        />
+        <Tab
+          icon={<MedicationLiquidIcon></MedicationLiquidIcon>}
+          label="医生账户管理"
+          {...a11yProps(3)}
+        />
+        <Tab
+          icon={<AccountBalanceIcon></AccountBalanceIcon>}
+          label="医疗机构账户管理"
+          {...a11yProps(4)}
+        />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <AdminTable></AdminTable>
+        <UserTable></UserTable>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <AdminTable></AdminTable>
       </TabPanel>
+      <TabPanel value={value} index={1}></TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-
     </Box>
   );
 }
