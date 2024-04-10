@@ -14,30 +14,28 @@ datasource db {
 }
 
 model Patients {
-interface Patient {
-  patientId: number;
-  userId?: number;
-  phoneNumber: string;
-  name?: string;
-  icNumber: string;
-  email?: string;
-  gender: string;
-  height: number;
-  weight: number;
-  occupation: string;
-  address: string;
-  bloodGroup?: string;
-  allergiesHistory: string;
-  diagnosisHistory: string;
-  emergentContactName: string;
-  emergentContactPhoneNumber: string;
-  password: string;
-  accountAddress: string;
-}
+  patientId                  Int                       @id @unique @default(autoincrement())
+  userId                     Int?
+  phoneNumber                String
+  name                       String?
+  icNumber                   String                    @unique
+  email                      String?
+  gender                     String
+  height                     Float
+  weight                     Float
+  occupation                 String
+  address                    String
+  bloodGroup                 String?
+  allergiesHistory           String
+  diagnosisHistory           String
+  emergentContactName        String
+  emergentContactPhoneNumber String
+  password                   String
+  accountAddress             String
   patientMedicationRecords   PatientMedicationRecord[]
   user                       Users?                    @relation(fields: [userId], references: [userId])
-  Doctor                     Doctor?                   @relation(fields: [doctorDoctorId], references: [doctorId])
   doctorDoctorId             Int?
+  doctorAuthorized           Doctor[]
 }
 
 model PatientMedicationRecord {
@@ -66,21 +64,23 @@ model MedicalInstitutions {
 }
 
 model Doctor {
-  doctorId                Int                       @id @unique @default(autoincrement())
-  userId                  Int?
-  user                    Users?                    @relation(fields: [userId], references: [userId])
-  medicalInstitutionId    Int
-  name                    String
-  gender                  String
-  icNumber                String                    @unique
-  phoneNumber             String
-  email                   String
-  category                String
-  patientsHaveAuthorized  Patients[]
+  doctorId             Int    @id @unique @default(autoincrement())
+  userId               Int?
+  user                 Users? @relation(fields: [userId], references: [userId])
+  medicalInstitutionId Int
+  name                 String
+  gender               String
+  icNumber             String @unique
+  phoneNumber          String
+  email                String
+  category             String
+
   medicationIinstitution  MedicalInstitutions       @relation(fields: [medicalInstitutionId], references: [medicalInstitutionId])
   PatientMedicationRecord PatientMedicationRecord[]
   password                String
   accountAddress          String
+  Patients                Patients?                 @relation(fields: [patientsPatientId], references: [patientId])
+  patientsPatientId       Int?
 }
 
 model Users {

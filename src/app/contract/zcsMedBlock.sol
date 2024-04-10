@@ -33,7 +33,12 @@ contract ZCSMedBlock {
     enum Role {
         PATIENT,
         DOCTOR,
-        INSTITUTION
+        INSTITUTION,
+        ADMIN
+    }
+    struct AdminInfo{
+        Role role;
+        string adminBase64Info;
     }
     struct PatientInfo {
         Role role;
@@ -51,15 +56,24 @@ contract ZCSMedBlock {
     }
     struct PatientMedicalRecord {
         string recordBase64;
-        address[] authorizedPatient;
         address[] authorizedInstitutions;
         address[] authorizedDoctors;
     }
     mapping(address => PatientInfo) Patients;
     mapping(address=>DoctorInfo)Doctors;
     mapping(address=>MedicalInstitutionInfo)MedicalInstitutions;
+    mapping(address=>AdminInfo)Admins;
+
     event PatientInfoCreate(address add, uint256 timestamp);
 
+    function addAdminInfo(string memory _pb64i) public {
+        AdminInfo memory newPi;
+        newPi.role = Role.PATIENT;
+        newPi.adminBase64Info = _pb64i;
+        Admins[msg.sender] = newPi;
+        console.log(msg.sender);
+        emit PatientInfoCreate(msg.sender, block.timestamp);
+    }
     function addPatientInfo(string memory _pb64i) public {
         PatientInfo memory newPi;
         newPi.role = Role.PATIENT;
