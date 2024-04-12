@@ -387,16 +387,7 @@ function BasicGrid() {
           >
             提交到数据库
           </Button>
-          {/* </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            endIcon={<SendIcon />}
-            size="large"
-            onClick={addPatientInfo_toBlockChain}
-          >
-            提交到Geth
-          </Button> */}
+          
         </Grid>
       </Grid>
     </Box>

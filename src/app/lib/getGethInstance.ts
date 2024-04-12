@@ -17,7 +17,7 @@ export interface web3Interface {
   addPatientInfo(obj: Object): Promise<any>;
   addDoctorInfo(obj: Object): Promise<any>;
   addInstitutionInfo(obj: Object): Promise<any>;
-  authorizedPatientInfoToDoctor(obj: Object): Promise<any>;
+  authorizedPatientInfoToDoctor(json: string): Promise<any>;
   addAdminInfo(obj: Object): Promise<any>;
   getAccountBalance(address: string): Promise<any>;
 }
@@ -28,14 +28,42 @@ export class Web3Service implements web3Interface {
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
   }
-  authorizedPatientInfoToDoctor(obj: Object): Promise<any> {
-    throw new Error("Method not implemented.");
+  async authorizedPatientInfoToDoctor(json: string): Promise<any> {
+    const obj = JSON.parse(json);
+    try {
+      return this.getContract().then(async (res) => {
+        const presponse = await fetch(
+          "http://localhost:8545/api/getPatientById",
+          {
+            method: "POST",
+          }
+        );
+        const pdat = await presponse.json();
+        const patientId = pdat.data.accountAddress;
+
+        const dresponse = await fetch(
+          "http://localhost:8545/api/getDoctorById",
+          { method: "POST" }
+        );
+        const ddat = await dresponse.json();
+        const doctorId = ddat.data.accountAddress;
+
+        const result = await res.methods.patientAuthorizeDoctorInfo(
+          obj.patientId,
+          obj.doctorId
+        );
+        if (result == "succeed") {
+          return Promise.resolve("ok");
+        } else return Promise.resolve("failed");
+      });
+    } catch (error) {
+      console.error("There was a problem with the auth operation:", error);
+    }
   }
   async getAccountBalance(address: string): Promise<any> {
-    const balance=await this.web3.eth.getBalance(address)
+    const balance = await this.web3.eth.getBalance(address);
     const balanceInEther = this.web3.utils.fromWei(balance, "ether");
     return Promise.resolve(balanceInEther);
-
   }
   async addAdminInfo(obj: Object): Promise<any> {
     const [jsonPayload, encrypted] =

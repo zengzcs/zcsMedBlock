@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PatientAuthorizePage from "./authorize";
+import { Button, Grid } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -64,18 +65,15 @@ function BasicTabs() {
         >
           <Tab label="个人授权信息管理" {...a11yProps(0)} />
           <Tab label="授权" {...a11yProps(1)} />
-
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        
-      </CustomTabPanel>
+      <CustomTabPanel value={value} index={0}></CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div>
           <PatientAuthorizePage></PatientAuthorizePage>
         </div>
       </CustomTabPanel>
-
+      
     </Box>
   );
 }

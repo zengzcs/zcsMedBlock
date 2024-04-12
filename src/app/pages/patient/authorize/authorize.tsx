@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import authInstance from "@/app/lib/authorize";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,18 +21,22 @@ import { Button, MenuItem } from "@mui/material";
 
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { getSession } from "next-auth/react";
 
-var doctorid = 1;
-var InstitutionId = 1;
+var doctorid = 0;
+var InstitutionId = 0;
 function handleDoctorId(event) {
   doctorid = event.target.value;
 }
 function handleChange(event) {
-  Institutionid = event.target.value;
+  InstitutionId = event.target.value;
 }
-export default async function PatientAuthorizePage() {
+export default async function PatientAuthorizePage(props) {
   const [docavia, setDocavaia] = React.useState(false);
   const [insavai, setInsavai] = React.useState(true);
+  const session = await getSession();
+  const patientId = session.user.name;
+
   let dmap: Map<string, string> = new Map();
 
   try {
@@ -87,16 +92,24 @@ export default async function PatientAuthorizePage() {
         onChange={handleChange}
         aria-label="Platform"
       >
-        <ToggleButton value="doctor" onClick={() => {
-          setInsavai(true)
-          setDocavaia(false)
-        }}>
+        <ToggleButton
+          value="doctor"
+          onClick={() => {
+            setInsavai(true);
+            setDocavaia(false);
+          }}
+        >
           授权给医生
         </ToggleButton>
-        <ToggleButton value="institution" onClick={() => {
-          setInsavai(false)
-          setDocavaia(true)
-        }}>授权给机构</ToggleButton>
+        <ToggleButton
+          value="institution"
+          onClick={() => {
+            setInsavai(false);
+            setDocavaia(true);
+          }}
+        >
+          授权给机构
+        </ToggleButton>
       </ToggleButtonGroup>
     );
   }
@@ -149,6 +162,25 @@ export default async function PatientAuthorizePage() {
                 </MenuItem>
               ))}
             </TextField>
+            <Grid container spacing={3}>
+              {" "}
+              {/* 间隔为 24px */}
+              <Grid item>
+                <Button
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  size="large"
+                  onClick={() => {
+                    authInstance.patientAuthorizeToDoctor(
+                      Number.parseInt(String(patientId)),
+                      doctorid
+                    );
+                  }}
+                >
+                  授权
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         </Grid>
       </Grid>

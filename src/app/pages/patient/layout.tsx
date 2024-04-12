@@ -25,6 +25,8 @@ import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import BugReportIcon from "@mui/icons-material/BugReport";
+import AddTaskIcon from "@mui/icons-material/AddTask";
+import BadgeIcon from "@mui/icons-material/Badge";
 export const metadata = {
   title: "基于区块链的医疗信息管理系统",
   description: "Author:曾朝 github: https://github.com/zengzcs/zcsMedBlock.git",
@@ -40,8 +42,8 @@ const LINKS = [
     icon: AssignmentIcon,
   },
 
-  { text: "个人信息", href: "/pages/patient/info", icon: AccessibleIcon },
-  { text: "授权管理", href: "/pages/patient/authorize", icon: AccessibleIcon },
+  { text: "个人信息", href: "/pages/patient/info", icon: BadgeIcon },
+  { text: "授权管理", href: "/pages/patient/authorize", icon: AddTaskIcon },
 ];
 
 export default function RootLayout({
