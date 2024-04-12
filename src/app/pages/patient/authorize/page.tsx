@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PatientAuthorizePage from "./authorize";
 import { Button, Grid } from "@mui/material";
+import AuthTable from "./table/authInfoTable";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -68,6 +69,7 @@ function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}></CustomTabPanel>
+      <AuthTable></AuthTable>
       <CustomTabPanel value={value} index={1}>
         <div>
           <PatientAuthorizePage></PatientAuthorizePage>

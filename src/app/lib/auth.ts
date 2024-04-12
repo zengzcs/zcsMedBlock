@@ -51,6 +51,7 @@ export const config: NextAuthOptions = {
             return Promise.resolve({
               name: json.userId,
               email: json.category,
+              image:credentials.password
             });
           } else {
             return null;

@@ -16,11 +16,11 @@ export const POST = async (req: NextRequest) => {
   try {
     const a = await prisma.patients.findUnique({
       where: {
-        patientId: Number(json.patientId),
+        userId: Number(json.patientId),
       },
     });
     if (a == null) {
-      return NextResponse.json({ msg: "User not found" }, { status: 400 });
+      return NextResponse.json({ msg: "User not found",data:a }, { status: 400 });
     } else {
       const result = await cryptoService.passwordMatches(
         json.password,

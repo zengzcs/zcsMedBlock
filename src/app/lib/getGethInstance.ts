@@ -1,4 +1,6 @@
 import { Base64 } from "js-base64";
+import { Session } from "next-auth";
+import { getSession } from "next-auth/react";
 import { Web3 } from "web3";
 
 export interface web3Interface {
@@ -20,6 +22,7 @@ export interface web3Interface {
   authorizedPatientInfoToDoctor(json: string): Promise<any>;
   addAdminInfo(obj: Object): Promise<any>;
   getAccountBalance(address: string): Promise<any>;
+  unlockAccount(address: string, password: string): Promise<any>;
 }
 export class Web3Service implements web3Interface {
   private web3: Web3;
@@ -28,33 +31,80 @@ export class Web3Service implements web3Interface {
       new Web3.providers.HttpProvider("http://localhost:8545")
     );
   }
+  async unlockAccount(address: string, password: string): Promise<any> {
+    console.log(
+      address +
+        ":UNLOCKED:" +
+        (await this.web3.eth.personal.unlockAccount(address, password, 300))
+    );
+  }
   async authorizedPatientInfoToDoctor(json: string): Promise<any> {
+    const session = await getSession();
     const obj = JSON.parse(json);
     try {
       return this.getContract().then(async (res) => {
         const presponse = await fetch(
-          "http://localhost:8545/api/getPatientById",
+          "http://localhost:3000/api/getPatientById",
           {
             method: "POST",
+            body: JSON.stringify({
+              patientId: obj.patientId,
+              password: "1",
+            }),
           }
         );
         const pdat = await presponse.json();
-        const patientId = pdat.data.accountAddress;
+        console.log("pdat.data");
+        console.log(pdat.data);
+        const patientAddress = pdat.data.accountAddress;
 
         const dresponse = await fetch(
-          "http://localhost:8545/api/getDoctorById",
-          { method: "POST" }
+          "http://localhost:3000/api/getDoctorById",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              doctorId: obj.doctorId,
+              password: "1",
+            }),
+          }
         );
-        const ddat = await dresponse.json();
-        const doctorId = ddat.data.accountAddress;
 
-        const result = await res.methods.patientAuthorizeDoctorInfo(
-          obj.patientId,
-          obj.doctorId
-        );
-        if (result == "succeed") {
-          return Promise.resolve("ok");
-        } else return Promise.resolve("failed");
+        const ddat = await dresponse.json();
+        console.log("ddat");
+        console.log(ddat.data);
+        const doctorAddress = ddat.data.accountAddress;
+
+        console.log("ADDRESS");
+        console.log(patientAddress);
+        console.log(doctorAddress);
+
+        const paddress = this.web3.utils.toChecksumAddress(patientAddress);
+        const daddress = this.web3.utils.toChecksumAddress(doctorAddress);
+        console.log("auth:");
+        console.log("paddress:", paddress);
+        console.log("daddress:", daddress);
+        const password = String(session?.user?.image);
+        console.log("password");
+        console.log(password);
+        await this.unlockAccount(paddress, password);
+        // await this.unlockAccount(daddress, ddat.data.password);
+        try {
+          const result = await res.methods
+            .patientAuthorizeDoctorInfo(paddress, daddress)
+            .send({
+              from: patientAddress,
+              gas: "1000000",
+              gasPrice: "10000000000",
+            })
+            .then((re) => {
+              console.log(re);
+            });
+          return Promise.resolve("ok")
+        } catch (e) {
+          console.log("授权错误")
+          console.log(e)
+          return Promise.resolve("failed");
+        }
       });
     } catch (error) {
       console.error("There was a problem with the auth operation:", error);

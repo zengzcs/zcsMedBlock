@@ -9,13 +9,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import authInstance from "@/app/lib/authorize";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+
 import TextField from "@mui/material/TextField";
 import { Button, MenuItem } from "@mui/material";
 
@@ -51,7 +45,7 @@ export default async function PatientAuthorizePage(props) {
     const Info = await response.json();
 
     Info.forEach((i) => {
-      dmap.set(i.medicalInstitutionId, i.name);
+      dmap.set(i.userId, i.name);
     });
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
@@ -70,7 +64,7 @@ export default async function PatientAuthorizePage(props) {
   const dInfo = await responseDoctors.json();
 
   dInfo.forEach((doctorInfo) => {
-    doctorMap.set(doctorInfo.doctorId, doctorInfo.name);
+    doctorMap.set(doctorInfo.userId, doctorInfo.name);
   });
 
   const doctorEntries = Array.from(doctorMap.entries());
@@ -170,11 +164,17 @@ export default async function PatientAuthorizePage(props) {
                   variant="contained"
                   endIcon={<SendIcon />}
                   size="large"
-                  onClick={() => {
-                    authInstance.patientAuthorizeToDoctor(
+                  onClick={async () => {
+                    const result=
+                    await authInstance.patientAuthorizeToDoctor(
                       Number.parseInt(String(patientId)),
                       doctorid
-                    );
+                      );
+                    console.log(result);
+                    if (result == "replete") {
+                      alert("医生已授权给该患者");
+                    }
+
                   }}
                 >
                   授权
