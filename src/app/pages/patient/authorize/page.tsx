@@ -14,7 +14,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PatientAuthorizePage from "./authorize";
 import { Button, Grid } from "@mui/material";
-import AuthTable from "./table/authInfoTable";
+import AuthTable from "./table/AuthTable";
+import { getSession } from "next-auth/react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,7 +50,7 @@ function a11yProps(index: number) {
   };
 }
 
-function BasicTabs() {
+async function BasicTabs() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

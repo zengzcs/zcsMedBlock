@@ -22,13 +22,16 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import gethInstance from "@/app/lib/getGethInstance";
 import { getSession } from "next-auth/react";
+import prismaInstance from "@/app/lib/prisma";
+import sessionInstance from "@/app/lib/session";
+import nexreqInstance from "@/app/lib/nextReq";
+import { useEffect } from "react";
 interface Data {
   id: number;
   userCategoryId: number;
   name: string;
   category: string;
   accountAddress: string;
-  email: string;
 }
 function createData(
   id: number,
@@ -36,8 +39,7 @@ function createData(
   name: string,
   category: string,
 
-  accountAddress: string,
-  email: string
+  accountAddress: string
 ): Data {
   return {
     id,
@@ -46,23 +48,15 @@ function createData(
     category,
 
     accountAddress,
-    email,
   };
 }
-async function getRows() {
-  const response = await fetch("/api/getPatientById", {
-    method: "POST",
-    body: JSON.stringify({
-      patientId: (await getSession())?.user?.name,
-      password: "1",
-    }),
-  });
-  const result = (await response.json()).data;
-  const authorizedDoctor = result.authorizedDoctorsId;
-  console.log("authorizedDoctor");
-  console.log(authorizedDoctor);
 
-  const infoData = [];
+async function getRows() {
+  
+
+  const result = await prismaInstance.getPatientById((await getSession())?.user?.name);
+  const infoData = nexreqInstance.parseReqBody(result);
+  console.log(infoData);
 
   var rows: {
     id: number;
@@ -70,20 +64,10 @@ async function getRows() {
     name: string;
     category: string;
     accountAddress: string;
-    email: string;
   }[] = [];
   infoData.forEach(async (a) => {
     await gethInstance.getAccountBalance(a.accountAddress).then((i) => {
-      rows.push(
-        createData(
-          a.userId,
-          a.userCategoryId,
-          a.name,
-          a.category,
-          a.accountAddress,
-          i
-        )
-      );
+      rows.push(createData(a.userId, a.userCategoryId, a.name, a.category, i));
     });
   });
   // console.log("rows");
@@ -178,12 +162,6 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: "Account Address",
-  },
-  {
-    id: "accountBalance",
-    numeric: true,
-    disablePadding: false,
-    label: "Account Balance",
   },
 ];
 
@@ -309,7 +287,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-export default function AuthTable() {
+export default function AuthTable(props) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -442,7 +420,6 @@ export default function AuthTable() {
                     <TableCell align="right">{row.category}</TableCell>
 
                     <TableCell align="right">{row.accountAddress}</TableCell>
-                    <TableCell align="right">{row.accountBalance}</TableCell>
                   </TableRow>
                 );
               })}
